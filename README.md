@@ -1,4 +1,4 @@
-# mendex
+# mendex-doc
 
 This package provides documentation for Mendex (Japanese index
 processor). Source code of the program is not included; it can
@@ -7,7 +7,7 @@ be obtained from TeX Live subversion repository.
 ## Repository
 
 The bundle is maintained on GitHub:
-https://github.com/texjporg/mendex
+https://github.com/texjporg/mendex-doc
 
 If you have issues, please let us know from the above page.
 
