@@ -1,28 +1,26 @@
-.TH MENDEXK 1
-.\" NAME should be all caps, SECTION should be 1-8, maybe w/ subsection
-.\" other parms are allowed: see man(7), man(1)
+.if t .ds TX "T\h'-.15m'\v'.2v'E\v'-.2v'\h'-.12m'X
+.if t .ds LX L\v'-.22m'a\v'.22m'T\h'-.1667m'\v'.22m'E\h'-.125m'\v'-.22m'X
+.TH MENDEX L
 .SH NAME
-mendexk \- programs to do something
+mendex \- Japanese index processor
 .SH SYNOPSIS
-.B mendexk
-.I "[options] files ..."
-.br
-.B bar
-.I "[options] files ..."
-.SH "DESCRIPTION"
-This manual page documents briefly the
-.BR mendexk ,
-and
-.B bar
-commands.
-This manual page was written for the Debian GNU/Linux distribution
-because the original program does not have a manual page.
-(Actually it has its own manual page, but written in Japanese.)
-Instead, it has documentation in the GNU Info format; see below.
+\fBmendex\fR [-ilqrcgEJSU] [\fB-s\fI sty\fR] [\fB-d\fI dic\fR] [\fB-o\fI ind\fR] [\fB-d\fI dic\fR] [\fB-t\fI log\fR] [\fB-p\fI no\fR] [\fB-I\fI enc\fR] [\fB--\fR] [\fI idx0 idx1 idx2 ...\fR]
+.SH DESCRIPTION
 .PP
-.B mendexk
-is a program that...
+The program \fImendex\fR is a general purpose hierarchical index generator;
+it accepts one or more input files (\fI.idx\fR; often produced by a text
+formatter such as \*(LX, sorts the entries, and produces an output file
+which can be formatted. It is almost compatible with \fImakeindex\fR, and
+さらに「読み」の扱いの手間を減らすように特殊化されています。
+.RE
+The formats of the input and output files are specified in a style file.
+また、辞書ファイルを与えることにより、索引中の熟語の読みが登録されます。
+.RE
+The index can have up to three levels (0, 1, and 2) of subitem nesting.
 .SH OPTIONS
+＝＝＝＝ここまでmendex.1.jaからコピペしてきて英訳＝＝＝＝
+一部まだ英訳していないので、要修正
+＝＝＝＝＝＝＝＝＝＝ここから未編集です＝＝＝＝＝＝＝＝＝＝
 The programs follow the usual GNU command line syntax, with long
 options starting with two dashes (`-').
 A summary of options are included below.
