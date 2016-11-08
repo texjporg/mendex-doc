@@ -1,5 +1,5 @@
-.if t .ds TX "T\h'-.15m'\v'.2v'E\v'-.2v'\h'-.12m'X
-.if t .ds LX L\v'-.22m'A\v'.22m'T\h'-.1667m'\v'.22m'E\h'-.125m'\v'-.22m'X
+.if t .ds TX T\\h'-0.1667m'\\v'0.20v'E\\v'-0.20v'\\h'-0.125m'X
+.if t .ds LX L\\h'-0.36m'\\v'-0.15v'\\s-2A\\s+2\\h'-0.15m'\\v'0.15v'T\\h'-0.1667m'\\v'0.20v'E\\v'-0.20v'\\h'-0.125m'X
 .TH MENDEX L
 .SH NAME
 mendex \- Japanese index processor
@@ -11,10 +11,10 @@ The program \fImendex\fR is a general purpose hierarchical index generator;
 it accepts one or more input files (\fI.idx\fR; often produced by a text
 formatter such as \*(LX, sorts the entries, and produces an output file
 which can be formatted. It is almost compatible with \fImakeindex\fR, and
-さらに「読み」の扱いの手間を減らすように特殊化されています。
+additional feature for handling syllables of kanji words is also available.
 .RE
 The formats of the input and output files are specified in a style file.
-また、辞書ファイルを与えることにより、索引中の熟語の読みが登録されます。
+The syllables of kanji words can be specified in a dictionary file.
 .RE
 The index can have up to three levels (0, 1, and 2) of subitem nesting.
 .SH OPTIONS
@@ -89,16 +89,23 @@ Set internal encoding to \fIenc\fR. The argument \fIenc\fR
 may be \fIeuc\fR(EUC-JP) or \fIutf8\fR(UTF-8).
 .TP 10
 \fB--\fR
-以降はオプション文字列と解釈しません。
+Arguments after \fB--\fR are not taken as options.
+
+.SH "STYLE FILE"
+The style file informs \fImendex\fR about the format of the
+\fIidx\fR input files and the intended format of the final
+output file. The format is uppercompatible with the one for
+\fImakeindex\fR. The style file contains a list of
+.RI < specifier , " attribute" >
+pairs.  There are two types of specifiers: input and output.
+Pairs do not have to appear in any particular order.
+A line begun by `%' is a comment.
 
 ＝＝＝＝ここまでmendex.1.jaからコピペしてきて英訳＝＝＝＝
-一部まだ英訳していないので、要修正
+英訳は makeindex.1 をベースにすると早い。
 ＝＝＝＝＝＝＝＝＝＝ここから未編集です＝＝＝＝＝＝＝＝＝＝
 
 .SH "SEE ALSO"
-The programs are documented fully by
-.IR "The Rise and Fall of a Fooish Bar" ,
-available via the Info system.
+tex(l), latex(l), makeindex(l)
 .SH AUTHOR
-This manual page was written by Masayuki Hatta <mhatta@debian.or.jp>,
-for the Debian GNU/Linux system (but may be used by others).
+This manual page was written by Japanese \*(TX Development Community.
