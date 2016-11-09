@@ -4,7 +4,7 @@ mendex - 索引整形ツール
 
 使用法
 
-    mendex [-ilqrcgEJSU] [-s sty] [-d dic] [-o ind] [-d dic] [-t log] [-p no] [-I enc] [--] [idx0 idx1 idx2 ...]
+    mendex [-ilqrcgfEJSU] [-s sty] [-d dic] [-o ind] [-t log] [-p no] [-I enc] [--] [idx0 idx1 idx2 ...]
 
 
 解説
