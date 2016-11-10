@@ -11,21 +11,11 @@
 \newenvironment{syntax}{\begin{quote}\small}{\end{quote}}
 
 % インラインコード用設定
-\makeatletter
-\let\para\par
-\def\new@verbcommand#1#2#3#4{%
-  #1*#2{%
-    \begingroup
-    \newverbcommand@settings
-    \def\verb@egroup{\verb@orig@egroup#4\endgroup}%
-    \def\newverbs@txend{#4\endgroup}%
-    #3\verb*}}
-\makeatother
+\let\xpar\par
 \MakeShortVerb{\|}
-\newverbcommand{\Param}{\item[}{]}
-\newverbcommand{\ParamNum}{\jMeta{数値}\quad 規定値：}{\para}
-\newverbcommand{\ParamChar}{\jMeta{文字}\quad 規定値：`}{'\para}
-\newverbcommand{\ParamString}{\jMeta{文字列}\quad 規定値：``}{''\para}
+\newverbcommand{\ParamNum}{\jMeta{数値}\quad 規定値：}{\xpar}
+\newverbcommand{\ParamChar}{\jMeta{文字}\quad 規定値：`}{'\xpar}
+\newverbcommand{\ParamString}{\jMeta{文字列}\quad 規定値：``}{''\xpar}
 
 % 文書マクロ
 \newcommand{\SoftName}[1]{\textsf{#1}}
@@ -151,7 +141,7 @@
 \paragraph{入力ファイルスタイルパラメタ}
 
 \begin{description}[leftmargin=3.5cm]
-\item[|keyword|] \ParamString|\\indexentry|
+\item[|keyword|] \ParamString*|\\indexentry|
 索引エントリを引数として持つコマンド．
 
 \item[|arg\string_open|] \ParamChar|{|
@@ -175,10 +165,10 @@
 \item[|encap|] \ParamChar+|+ \par
 このシンボルに続く文字列が，ページ番号に付くコマンド名として使われる．
 
-\item[|page\string_compositor|] \ParamString|-|
+\item[|page\string_compositor|] \ParamString*|-|
 階層化されたページ番号における階層間の区切り文字．
 
-\item[|page\string_precedence|] \ParamString|rnaRA|
+\item[|page\string_precedence|] \ParamString*|rnaRA|
 ページ番号の記法の優先順位．`|R|' および `|r|' はローマ数字，`|n|' はアラビア数字，
 `|A|' および `|a|' はアルファベットによる記法を表す．
 
@@ -192,31 +182,31 @@
 \paragraph{出力ファイルスタイルパラメタ}
 
 \begin{description}[leftmargin=3.5cm]
-\item[|preamble|] \ParamString|\\begin{theindex}\n|
+\item[|preamble|] \ParamString*|\\begin{theindex}\n|
 出力ファイル先頭の文字列．
 
-\item[|postamble|] \ParamString|\n\n\\end{theindex}\n|
+\item[|postamble|] \ParamString*|\n\n\\end{theindex}\n|
 出力ファイル末尾の文字列．
 
-\item[|setpage\string_prefix|] \ParamString|\n  \\setcounter{page}{|
+\item[|setpage\string_prefix|] \ParamString*|\n  \\setcounter{page}{|
 開始ページを設定するときの，ページ番号の前に付ける文字列．
 
-\item[|setpage\string_suffix|] \ParamString|}\n|
+\item[|setpage\string_suffix|] \ParamString*|}\n|
 開始ページを設定するときの，ページ番号の後に付ける文字列．
 
-\item[|group\string_skip|] \ParamString|\n\n  \\indexspace\n|
+\item[|group\string_skip|] \ParamString*|\n\n  \\indexspace\n|
 新項目（頭文字）の前に挿入する縦スペースを表す文字列．
 
-\item[|lethead\string_prefix|] \ParamString||
+\item[|lethead\string_prefix|] \ParamString*||
 頭文字の前に付けるコマンド文字列．
 
-\item[|heading\string_prefix|] \ParamString||
+\item[|heading\string_prefix|] \ParamString*||
 |lethead_prefix| と同じ．
 
-\item[|lethead\string_suffix|] \ParamString||
+\item[|lethead\string_suffix|] \ParamString*||
 頭文字の後に付けるコマンド文字列．
 
-\item[|heading\string_suffix|] \ParamString||
+\item[|heading\string_suffix|] \ParamString*||
 |lethead_suffix| と同じ．
 
 \item[|lethead\string_flag|] \ParamNum|0|
@@ -226,82 +216,82 @@
 \item[|heading\string_flag|] \ParamNum|0|
 |lethead_flag| と同じ．
 
-\item[|item\string_0|] \ParamString|\n  \\item |
+\item[|item\string_0|] \ParamString*|\n  \\item |
 主エントリ間に挿入するコマンド．
 
-\item[|item\string_1|] \ParamString|\n    \\subitem |
+\item[|item\string_1|] \ParamString*|\n    \\subitem |
 サブエントリ間に挿入するコマンド．
 
-\item[|item\string_2|] \ParamString|\n      \\subsubitem |
+\item[|item\string_2|] \ParamString*|\n      \\subsubitem |
 サブサブエントリ間に挿入するコマンド．
 
-\item[|item\string_01|] \ParamString|\n    \\subitem |
+\item[|item\string_01|] \ParamString*|\n    \\subitem |
 主−サブエントリ間に挿入するコマンド．
 
-\item[|item\string_x1|] \ParamString|\n    \\subitem |
+\item[|item\string_x1|] \ParamString*|\n    \\subitem |
 主−サブエントリ間に挿入するコマンド（主エントリにページ番号がないとき）．
 
-\item[|item\string_12|] \ParamString|\n    \\subsubitem |
+\item[|item\string_12|] \ParamString*|\n    \\subsubitem |
 サブ−サブサブエントリ間に挿入するコマンド．
 
-\item[|item\string_x2|] \ParamString|\n    \\subsubitem |
+\item[|item\string_x2|] \ParamString*|\n    \\subsubitem |
 サブ−サブサブエントリ間に挿入するコマンド（サブエントリにページ番号がないとき）．
 
-\item[|delim\string_0|] \ParamString|, |
+\item[|delim\string_0|] \ParamString*|, |
 主エントリと最初のページ番号の間の区切り文字列．
 
-\item[|delim\string_1|] \ParamString|, |
+\item[|delim\string_1|] \ParamString*|, |
 サブエントリと最初のページ番号の間の区切り文字列．
 
-\item[|delim\string_2|] \ParamString|, |
+\item[|delim\string_2|] \ParamString*|, |
 サブサブエントリと最初のページ番号の間の区切り文字列．
 
-\item[|delim\string_n|] \ParamString|, |
+\item[|delim\string_n|] \ParamString*|, |
 ページ番号間の区切り文字列．どのエントリレベルにも共通．
 
-\item[|delim\string_r|] \ParamString|--|
+\item[|delim\string_r|] \ParamString*|--|
 ページ範囲を示すときの，ページ番号間の区切り文字列．
 
-\item[|delim\string_t|] \ParamString||
+\item[|delim\string_t|] \ParamString*||
 ページ番号のリストの終端に出力する文字列．
 
-\item[|suffix\string_2p|] \ParamString||
+\item[|suffix\string_2p|] \ParamString*||
 ページ番号が2ページ連続する場合に，|delim_n| と2ページ目の番号の代わりに付加する文字列．
 文字列が定義されている場合にのみ有効．
 
-\item[|suffix\string_3p|] \ParamString||
+\item[|suffix\string_3p|] \ParamString*||
 ページ番号が3ページ連続する場合に，|delim_r| と3ページ目の番号の代わりに付加する文字列．
 |suffix_mp| より優先される．文字列が定義されている場合にのみ有効．
 
-\item[|suffix\string_mp|] \ParamString||
+\item[|suffix\string_mp|] \ParamString*||
 ページ番号が3ページ連続する場合に，|delim_r| と3ページ目の番号の代わりに付加する文字列．
 文字列が定義されている場合にのみ有効．
 
-\item[|encap\string_prefix|] \ParamString|\\|
+\item[|encap\string_prefix|] \ParamString*|\\|
 ページ番号にコマンドを付けるときの，コマンド名の前に付ける文字列．
 
-\item[|encap\string_infix|] \ParamString|{|
+\item[|encap\string_infix|] \ParamString*|{|
 ページ番号にコマンドを付けるときの，ページ番号の前に付ける文字列．
 
-\item[|encap\string_suffix|] \ParamString|}|
+\item[|encap\string_suffix|] \ParamString*|}|
 ページ番号にコマンドを付けるときの，ページ番号の後に付ける文字列．
 
 \item[|line\string_max|] \ParamNum|72|
 1行の最大文字数．それを超えると折り返す．
 
-\item[|indent\string_space|] \ParamString||
+\item[|indent\string_space|] \ParamString*||
 折り返した行の頭に挿入するスペース．
 
 \item[|indent\string_length|] \ParamNum|16|
 折り返した行の頭に挿入されるスペースの長さ．
 
-\item[|symhead\string_positive|] \ParamString|Symbols|
+\item[|symhead\string_positive|] \ParamString*|Symbols|
 |lethead_flag| または |heading_flag| が正数の場合に数字・記号の頭文字として出力する文字列．
 
-\item[|symhead\string_negative|] \ParamString|symbols|
+\item[|symhead\string_negative|] \ParamString*|symbols|
 |lethead_flag| または |heading_flag| が負数の場合に数字・記号の頭文字として出力する文字列．
 
-\item[|symbol|] \ParamString||
+\item[|symbol|] \ParamString*||
 |symbol_flag| が|0|でない場合に，数字・記号の頭文字として出力する文字列．文字列が定義されて
 いれば，|symhead_positive| および |symhead_negative| より優先される（\SoftName{mendex}専用）．
 
@@ -316,7 +306,7 @@
 英字と日本語との混在した索引語のソート方法についてのフラグ．|0|でなければ英字と日本語との
 間に半角スペースを入れた状態でソートする（\SoftName{mendex}専用）．
 
-\item[|character\string_order|] \ParamString|SEJ|
+\item[|character\string_order|] \ParamString*|SEJ|
 記号，英字，日本語の優先順位．`|S|' は記号，`|E|' は英字，`|J|' は日本語を表す
 （\SoftName{mendex}専用）．
 \end{description}
