@@ -1,454 +1,403 @@
-\documentclass[10pt,dvipdfmx]{jsarticle}
-\usepackage{fullpage, graphicx, url}
-\setlength{\parskip}{1ex}
-\setlength{\parindent}{0ex}
+\documentclass[a4paper]{jsarticle}
 
-\title{ MENDEX(L)}
+% 依存パッケージ
+\usepackage{otf}
+\usepackage{enumitem}
+\usepackage{shortvrb}
+\usepackage{newverbs}
+
+% リスト設定
+\setlist[description]{font=\normalfont, style=nextline}
+\newenvironment{syntax}{\begin{quote}\small}{\end{quote}}
+
+% インラインコード用設定
+\let\xpar\par
+\MakeShortVerb{\|}
+\newverbcommand{\ParamNum}{\jMeta{数値}\quad 規定値：}{\xpar}
+\newverbcommand{\ParamChar}{\jMeta{文字}\quad 規定値：`}{'\xpar}
+\newverbcommand{\ParamString}{\jMeta{文字列}\quad 規定値：``}{''\xpar}
+
+% 文書マクロ
+\newcommand{\SoftName}[1]{\textsf{#1}}
+\newcommand{\FileExtension}[1]{\texttt{.#1}}
+\newcommand{\Meta}[1]{$\langle$\mbox{}\textit{#1}\mbox{}$\rangle$}
+\newcommand{\jMeta}[1]{$\langle$\mbox{}\textsf{#1}\mbox{}$\rangle$}
+
+% 文書情報
+\title{\SoftName{mendex}：索引整形ツール}
+\author{アスキー・メディアワークス \and 日本語\TeX 開発コミュニティ}
+
 \begin{document}
 
+\maketitle
 
-\begin{tabular}{c}
- MENDEX(L) MENDEX(L)
+\begin{abstract}
+\SoftName{mendex}は文書の索引を作成するコマンドラインツールです．\LaTeX により抽出された
+索引リストファイル（\FileExtension{idx}）を並べ替え，実際の索引のソースファイルの形に
+整形します．\SoftName{makeindex}と互換性があり，さらに「読み」の扱いの手間を減らすように
+特殊化されています．出力される索引の形式は，スタイルファイルに従って決定されます．また，
+辞書ファイルを与えることにより，索引中の漢字の読みが登録されます．索引の階層は3段階まで
+作成することができます．
+\end{abstract}
 
+\section{使用法}
+
+はじめに\SoftName{mendex}の使用法を示します．
+%
+\begin{syntax}
+|mendex [-ilqrcgfEJSU]|
+|[-s| \Meta{sty}|]|
+|[-d| \Meta{dic}|]|
+|[-o| \Meta{ind}|]|
+|[-t| \Meta{log}|]|
+|[-p| \Meta{no}|]|
+|[-I| \Meta{enc}|]| \\
+\phantom{\texttt{mendex }}%
+|[--]|
+|[|\Meta{idx0} \Meta{idx1} \Meta{idx2} |...]|
+\end{syntax}
+
+\section{オプション}
+
+\SoftName{mendex}で利用可能なオプションは以下の通りです．
+
+\begin{description}[leftmargin=2cm]
+\item[|-i|]
+索引リストファイルが指定されている場合でも，標準入力を索引リストとして使用します．
+
+\item[|-l|]
+索引のソートを文字順で行います．指定されなければ単語順のソートになります
+（ソート方法については後述）．
+
+\item[|-q|]
+静粛モードです．エラーおよび警告以外は標準エラー出力に出力しません．
+
+\item[|-r|]
+ページ範囲表現を無効にします．指定しないと，連続して出てくる索引については ``1--5'' のように
+ページ範囲で表現されます．
+
+\item[|-c|]
+スペースやタブといったブランクを短縮して，すべて1個の半角スペースにします．
+また，前後のブランクは削除されます．
+
+\item[|-g|]
+日本語の頭文字の区切りを「あかさた……わ」にします．指定しないと「あいうえ……わをん」
+になります．
+
+\item[|-f|]
+辞書ファイルにない漢字も強制的に出力するモードです．
+
+\item[|-s| \Meta{sty}]
+ファイル\Meta{sty}をスタイルファイルと見なします．スタイルファイルを指定しなければ，
+デフォルトの索引形式で作成します．
+
+\item[|-d| \Meta{dic}]
+ファイル\Meta{dic}を辞書ファイルと見なします．辞書ファイルは日本語の
+``\jMeta{漢字} \jMeta{読み}'' のリストで構成されます．
+
+\item[|-o| \Meta{ind}]
+ファイル\Meta{ind}を出力ファイルと見なします．指定がない場合は最初の入力ファイルの拡張子を
+\FileExtension{ind}としたもの，入力ファイルが標準入力のみであれば標準出力に出力します．
+
+\item[|-t| \Meta{log}]
+ファイルをログファイルと見なします．指定がない場合は最初の入力ファイルの拡張子を
+\FileExtension{ilg}としたもの，入力ファイルが標準入力のみであれば標準エラー出力のみに
+出力されます．
+
+\item[|-p| \Meta{no}]
+\Meta{no}を索引ページの先頭ページとして指定します．また，\TeX のログファイル
+（\FileExtension{log}）を参照することにより |any|（最終ページの次のページから），
+|odd|（最終ページの次の奇数ページから），|even|（最終ページの次の偶数ページから）といった
+指定の仕方も可能です．
+
+\item[|-E|]
+エンコーディングをEUCに指定します．入力ファイル，出力ファイルともEUCとして扱います．
+
+\item[|-J|]
+エンコーディングをJISに指定します．入力ファイル，出力ファイルともJISとして扱います．
+
+\item[|-S|]
+エンコーディングをShiftJISに指定します．入力ファイル，出力ファイルともShiftJISとして扱います．
+
+\item[|-U|]
+エンコーディングをUTF-8に指定します．入力ファイル，出力ファイルともUTF-8として扱います．
+
+\item[|-I| \Meta{enc}]
+内部バッファのエンコーディングを\Meta{enc}に指定します．\Meta{enc}には |euc|（EUC-JP）
+または |utf8|（UTF-8）が指定可能です．このオプションが指定されていない場合のデフォルト
+値は |euc| ですが，オプション |-U| が明示的に指定されている場合は |utf8| となります．
+
+\item[|--|]
+以降はオプション文字列と解釈しません．
+\end{description}
+
+\section{スタイルファイル}
+
+スタイルファイルは\SoftName{makeindex}のものと上位互換です．
+形式は ``\jMeta{スタイルパラメータ} \jMeta{引数}'' のリストで構成されます．
+パラメータの記述順序は自由です．また `|%|' 以降はコメントと見されます．
+
+以下にスタイルパラメータとそのデフォルト値の一覧を示します．
+
+\paragraph{入力ファイルスタイルパラメタ}
+
+\begin{description}[leftmargin=3.5cm]
+\item[|keyword|] \ParamString*|\\indexentry|
+索引エントリを引数として持つコマンド．
+
+\item[|arg\string_open|] \ParamChar|{|
+索引エントリ文字列開始を表す文字．
+
+\item[|arg\string_close|] \ParamChar|}|
+索引エントリ文字列終了を表す文字．
+
+\item[|range\string_open|] \ParamChar|(|
+ページ範囲の開始を示す文字．
+
+\item[|range\string_close|] \ParamChar|)|
+ページ範囲の終了を示す文字．
+
+\item[|level|] \ParamChar|!|
+従属レベルであることを示す文字．
+
+\item[|actual|] \ParamChar|@|
+このシンボルに続く文字列が実際の索引文字列として出力ファイルに書かれる．
+
+\item[|encap|] \ParamChar+|+ \par
+このシンボルに続く文字列が，ページ番号に付くコマンド名として使われる．
+
+\item[|page\string_compositor|] \ParamString*|-|
+階層化されたページ番号における階層間の区切り文字．
+
+\item[|page\string_precedence|] \ParamString*|rnaRA|
+ページ番号の記法の優先順位．`|R|' および `|r|' はローマ数字，`|n|' はアラビア数字，
+`|A|' および `|a|' はアルファベットによる記法を表す．
+
+\item[|quote|] \ParamChar|"|
+\SoftName{mendex}のパラメータ文字に対するエスケープキャラクタ．
+
+\item[|escape|] \ParamChar|\\|
+一般的な文字に対するエスケープキャラクタ．
+\end{description}
+
+\paragraph{出力ファイルスタイルパラメタ}
+
+\begin{description}[leftmargin=3.5cm]
+\item[|preamble|] \ParamString*|\\begin{theindex}\n|
+出力ファイル先頭の文字列．
+
+\item[|postamble|] \ParamString*|\n\n\\end{theindex}\n|
+出力ファイル末尾の文字列．
+
+\item[|setpage\string_prefix|] \ParamString*|\n  \\setcounter{page}{|
+開始ページを設定するときの，ページ番号の前に付ける文字列．
+
+\item[|setpage\string_suffix|] \ParamString*|}\n|
+開始ページを設定するときの，ページ番号の後に付ける文字列．
+
+\item[|group\string_skip|] \ParamString*|\n\n  \\indexspace\n|
+新項目（頭文字）の前に挿入する縦スペースを表す文字列．
+
+\item[|lethead\string_prefix|] \ParamString*||
+頭文字の前に付けるコマンド文字列．
+
+\item[|heading\string_prefix|] \ParamString*||
+|lethead_prefix| と同じ．
+
+\item[|lethead\string_suffix|] \ParamString*||
+頭文字の後に付けるコマンド文字列．
+
+\item[|heading\string_suffix|] \ParamString*||
+|lethead_suffix| と同じ．
+
+\item[|lethead\string_flag|] \ParamNum|0|
+頭文字の出力のフラグ．|0| のとき出力しない．|0|より大きいときは英字を大文字で，
+|0|より小さいときは小文字で出力する．
+
+\item[|heading\string_flag|] \ParamNum|0|
+|lethead_flag| と同じ．
+
+\item[|item\string_0|] \ParamString*|\n  \\item |
+主エントリ間に挿入するコマンド．
+
+\item[|item\string_1|] \ParamString*|\n    \\subitem |
+サブエントリ間に挿入するコマンド．
+
+\item[|item\string_2|] \ParamString*|\n      \\subsubitem |
+サブサブエントリ間に挿入するコマンド．
+
+\item[|item\string_01|] \ParamString*|\n    \\subitem |
+主−サブエントリ間に挿入するコマンド．
+
+\item[|item\string_x1|] \ParamString*|\n    \\subitem |
+主−サブエントリ間に挿入するコマンド（主エントリにページ番号がないとき）．
+
+\item[|item\string_12|] \ParamString*|\n    \\subsubitem |
+サブ−サブサブエントリ間に挿入するコマンド．
+
+\item[|item\string_x2|] \ParamString*|\n    \\subsubitem |
+サブ−サブサブエントリ間に挿入するコマンド（サブエントリにページ番号がないとき）．
+
+\item[|delim\string_0|] \ParamString*|, |
+主エントリと最初のページ番号の間の区切り文字列．
+
+\item[|delim\string_1|] \ParamString*|, |
+サブエントリと最初のページ番号の間の区切り文字列．
+
+\item[|delim\string_2|] \ParamString*|, |
+サブサブエントリと最初のページ番号の間の区切り文字列．
+
+\item[|delim\string_n|] \ParamString*|, |
+ページ番号間の区切り文字列．どのエントリレベルにも共通．
+
+\item[|delim\string_r|] \ParamString*|--|
+ページ範囲を示すときの，ページ番号間の区切り文字列．
+
+\item[|delim\string_t|] \ParamString*||
+ページ番号のリストの終端に出力する文字列．
+
+\item[|suffix\string_2p|] \ParamString*||
+ページ番号が2ページ連続する場合に，|delim_n| と2ページ目の番号の代わりに付加する文字列．
+文字列が定義されている場合にのみ有効．
+
+\item[|suffix\string_3p|] \ParamString*||
+ページ番号が3ページ連続する場合に，|delim_r| と3ページ目の番号の代わりに付加する文字列．
+|suffix_mp| より優先される．文字列が定義されている場合にのみ有効．
+
+\item[|suffix\string_mp|] \ParamString*||
+ページ番号が3ページ連続する場合に，|delim_r| と3ページ目の番号の代わりに付加する文字列．
+文字列が定義されている場合にのみ有効．
+
+\item[|encap\string_prefix|] \ParamString*|\\|
+ページ番号にコマンドを付けるときの，コマンド名の前に付ける文字列．
+
+\item[|encap\string_infix|] \ParamString*|{|
+ページ番号にコマンドを付けるときの，ページ番号の前に付ける文字列．
+
+\item[|encap\string_suffix|] \ParamString*|}|
+ページ番号にコマンドを付けるときの，ページ番号の後に付ける文字列．
+
+\item[|line\string_max|] \ParamNum|72|
+1行の最大文字数．それを超えると折り返す．
+
+\item[|indent\string_space|] \ParamString*||
+折り返した行の頭に挿入するスペース．
+
+\item[|indent\string_length|] \ParamNum|16|
+折り返した行の頭に挿入されるスペースの長さ．
+
+\item[|symhead\string_positive|] \ParamString*|Symbols|
+|lethead_flag| または |heading_flag| が正数の場合に数字・記号の頭文字として出力する文字列．
+
+\item[|symhead\string_negative|] \ParamString*|symbols|
+|lethead_flag| または |heading_flag| が負数の場合に数字・記号の頭文字として出力する文字列．
+
+\item[|symbol|] \ParamString*||
+|symbol_flag| が|0|でない場合に，数字・記号の頭文字として出力する文字列．文字列が定義されて
+いれば，|symhead_positive| および |symhead_negative| より優先される（\SoftName{mendex}専用）．
+
+\item[|symbol\string_flag|] \ParamNum|1|
+数字・記号の頭文字の出力フラグ．|0|のとき出力しない（\SoftName{mendex}専用）．
+
+\item[|letter\string_heaad|] \ParamNum|1|
+日本語の頭文字の出力のフラグ．|1|のときカタカナ，|2|のときひらがなで出力する
+（\SoftName{mendex}専用）．
+
+\item[|priority|] \ParamNum|0|
+英字と日本語との混在した索引語のソート方法についてのフラグ．|0|でなければ英字と日本語との
+間に半角スペースを入れた状態でソートする（\SoftName{mendex}専用）．
+
+\item[|character\string_order|] \ParamString*|SEJ|
+記号，英字，日本語の優先順位．`|S|' は記号，`|E|' は英字，`|J|' は日本語を表す
+（\SoftName{mendex}専用）．
+\end{description}
+
+\section{日本語の扱いについて}
+
+\SoftName{mendex}は日本語の索引をできるだけ楽に扱えるようになっています．
+\SoftName{makeindex}では日本語の索引が正しく辞書順にソートするためにはひらがなまたは
+カタカナに揃え，拗音，撥音，濁点を除いた読みを付けなければなりませんでした
+（自動的に揃えるバージョンもある）． \SoftName{mendex}ではカナについてはすべて自動的に
+揃え，また漢字については辞書ファイルを設定することにより各索引語ごとに読みを付ける作業を
+かなり解消できます．以下に内部でのカナの変換例を示します．
+%
+\begin{quote}
+\begin{tabular}{ll}
+かぶしきがいしゃ & かふしきかいしや \\
+マッキントッシュ & まつきんとつしゆ \\
+ワープロ & わあふろ
 \end{tabular}
-
-\section*{名称}
- mendex - 索引整形ツール\section*{使用法}
-\textbf{mendex}
- [-ilqrcgEJSU] [\textbf{-s}
-\emph{ sty}
-] [\textbf{-d}
-\emph{ dic}
-] [\textbf{-o}
-\emph{ ind}
-] [\textbf{-d}
-\emph{ dic}
-] [\textbf{-t}
-\emph{ log}
-] [\textbf{-p}
-\emph{ no}
-] [\textbf{-I}
-\emph{ enc}
-] [\textbf{--}
-] [\emph{ idx0 idx1 idx2 ...}
-]\section*{解説}
-\emph{mendex}
- は文書の索引を作成するツールです。 LaTeX により抽出された索引リストファイル(\emph{.idx}
-)を並べ替え、実際の索引のソースファイルの形に整形します。 \emph{makeindex}
- と互換性があり、さらに「読み」の扱いの手間を減らすように特殊化されています。 出力される索引の形式は、スタイルファイルに従って決定されます。また、辞書ファイルを与えることにより、索引中の熟語の読みが登録されます。 索引の階層は３段階まで作成することができます。\section*{オプション}
-\begin{description}
-\item[\textbf{-i}
-] 索引リストファイルが指定されている場合でも、標準入力を索引リストとして使用します。
-
-\end{description}
-\begin{description}
-\item[\textbf{-l}
-] 索引のソートを文字順で行います。指定されなければ単語順のソートになります(ソート方法については後述)。
-
-\end{description}
-\begin{description}
-\item[\textbf{-q}
-] 静粛モードです。エラーおよび警告以外は標準エラー出力に出力しません。
-
-\end{description}
-\begin{description}
-\item[\textbf{-r}
-] ページ範囲表現を無効にします。指定しないと、連続して出てくる索引については ``1--5'' のようにページ範囲で表現されます。
-
-\end{description}
-\begin{description}
-\item[\textbf{-c}
-] スペースやタブといったブランクを短縮して、すべて１個の半角スペースにします。また、前後のブランクは削除されます。
-
-\end{description}
-\begin{description}
-\item[\textbf{-g}
-] 日本語の頭文字の区切りを ``あかさた・・・わ'' にします。指定しないと ``あいうえ・・・わをん'' になります。
-
-\end{description}
-\begin{description}
-\item[\textbf{-f}
-] 辞書ファイルにない漢字も強制的に出力するモードです。
-
-\end{description}
-\begin{description}
-\item[\textbf{-s}
-\emph{ sty}
-]\emph{sty}
- ファイルをスタイルファイルと見なします。スタイルファイルを指定しなければ、デフォルトの索引形式で作成します。
-
-\end{description}
-\begin{description}
-\item[\textbf{-d}
-\emph{ dic}
-]\emph{dic}
- ファイルを辞書ファイルと見なします。辞書ファイルは日本語の $<$\emph{熟語}
- \emph{読み}
-$>$ のリストで構成されます。
-
-\end{description}
-\begin{description}
-\item[\textbf{-o}
-\emph{ ind}
-]\emph{ind}
- ファイルを出力ファイルと見なします。指定がない場合は最初の入力ファイルの拡張子を.indとしたもの、入力ファイルが標準入力のみであれば標準出力に出力します。
-
-\end{description}
-\begin{description}
-\item[\textbf{-t}
-\emph{ log}
-]\emph{log}
- ファイルをログファイルと見なします。指定がない場合は最初の入力ファイルの拡張子を.ilgとしたもの、入力ファイルが標準入力のみであれば標準エラー出力のみに出力されます。
-
-\end{description}
-\begin{description}
-\item[\textbf{-p}
-\emph{ no}
-]\emph{no}
- を索引ページの先頭ページとして指定します。また、TeXの.log ファイルを参照することにより \emph{any}
-(最終ページの次のページから)、\emph{odd}
-(最終ページの次の奇数ページから)、\emph{even}
-(最終ページの次の偶数ページから)といった指定の仕方も可能です。
-
-\end{description}
-\begin{description}
-\item[\textbf{-E}
-] 漢字コードをEUCに指定します。入力ファイル、出力ファイルともEUCとして扱います。
-
-\end{description}
-\begin{description}
-\item[\textbf{-J}
-] 漢字コードをJISに指定します。入力ファイル、出力ファイルともJISとして扱います。
-
-\end{description}
-\begin{description}
-\item[\textbf{-S}
-] 漢字コードをShiftJISに指定します。入力ファイル、出力ファイルともShiftJISとして扱います。
-
-\end{description}
-\begin{description}
-\item[\textbf{-U}
-] 漢字コードをUTF-8に指定します。入力ファイル、出力ファイルともUTF-8として扱います。
-
-\end{description}
-\begin{description}
-\item[\textbf{-I}
-\emph{ enc}
-] 内部バッファのコードを\emph{enc}
- に指定します。\emph{enc}
- には \emph{euc}
-(EUC-JP) または \emph{utf8}
-(UTF-8)が指定可能です。
-
-\end{description}
-\begin{description}
-\item[\textbf{--}
-] 以降はオプション文字列と解釈しません。    
-
-\end{description}
-\section*{スタイルファイル}
- スタイルファイルは makeindex のものと上位互換です。 形式は $<$ \emph{スタイルパラメータ}
- \emph{引数}
-$>$ のリストで構成されます。パラメータの順序は自由です。 以下にスタイルパラメータの一覧を示します。 `\%'以降はコメントと見なされます。\textbf{ 入力ファイルスタイルパラメータ}
-\begin{description}
-\item[\textbf{keyword}
- $<$文字列$>$] ``$\backslash$$\backslash$indexentry''
-
-\end{description}
- 索引エントリを引数として持つコマンド。\begin{description}
-\item[\textbf{arg\_open}
- $<$文字$>$] $^\prime$\{$^\prime$
-
-\end{description}
- 索引エントリ文字列開始を表す文字。\begin{description}
-\item[\textbf{arg\_close}
- $<$文字$>$] $^\prime$\}$^\prime$
-
-\end{description}
- 索引エントリ文字列終了を表す文字。\begin{description}
-\item[\textbf{range\_open}
- $<$文字$>$] $^\prime$($^\prime$
-
-\end{description}
- ページ範囲の開始を示す文字。\begin{description}
-\item[\textbf{range\_close}
- $<$文字$>$] $^\prime$)$^\prime$
-
-\end{description}
- ページ範囲の終了を示す文字。\begin{description}
-\item[\textbf{level}
- $<$文字$>$] $^\prime$!$^\prime$
-
-\end{description}
- 従属レベルであることを示す文字。\begin{description}
-\item[\textbf{actual}
- $<$文字$>$] $^\prime$@$^\prime$
-
-\end{description}
- このシンボルに続く文字列が実際の索引文字列として出力ファイルに書かれる。\begin{description}
-\item[\textbf{encap}
- $<$文字$>$] $^\prime$|$^\prime$
-
-\end{description}
- このシンボルに続く文字列が、ページ番号に付くコマンド名として使われる。\begin{description}
-\item[\textbf{page\_compositor}
- $<$文字列$>$] ``-''
-
-\end{description}
- 階層化されたページ番号における階層間の区切り文字。\begin{description}
-\item[\textbf{page\_precedence}
- $<$文字列$>$] ``rnaRA''
-
-\end{description}
- ページ番号の記法の優先順位。$^\prime$R$^\prime$および$^\prime$r$^\prime$はローマ数字、$^\prime$n$^\prime$はアラビア数字、$^\prime$A$^\prime$および$^\prime$a$^\prime$はアルファベットによる記法を表す。\begin{description}
-\item[\textbf{quote}
- $<$文字$>$] $^\prime$''$^\prime$
-
-\end{description}
- mendexのパラメータ文字に対するエスケープキャラクタ。\begin{description}
-\item[\textbf{escape}
- $<$文字$>$] $^\prime$$\backslash$$\backslash$$^\prime$
-
-\end{description}
- 一般的な文字に対するエスケープキャラクタ。  \textbf{ 出力ファイルスタイルパラメータ}
-  \textbf{preamble}
- $<$文字列$>$ ``$\backslash$$\backslash$begin\{theindex\}$\backslash$n'' 出力ファイルの文字列。\begin{description}
-\item[\textbf{postamble}
- $<$文字列$>$] ``$\backslash$n$\backslash$n$\backslash$$\backslash$end\{theindex\}$\backslash$n''
-
-\end{description}
- 出力ファイルの末尾の文字列。\begin{description}
-\item[\textbf{setpage\_prefix}
- $<$文字列$>$] ``$\backslash$n $\backslash$$\backslash$setcounter\{page\}\{``
-
-\end{description}
- 開始ページを設定するときの、ページ番号の前に付ける文字列。\begin{description}
-\item[\textbf{setpage\_suffix}
- $<$文字列$>$] ``\}$\backslash$n''
-
-\end{description}
- 開始ページを設定するときの、ページ番号の後に付ける文字列。\begin{description}
-\item[\textbf{group\_skip}
- $<$文字列$>$] ``$\backslash$n$\backslash$n $\backslash$$\backslash$indexsapce$\backslash$n''
-
-\end{description}
- 新項目(頭文字)の前に挿入する縦スペースを表す文字列。\begin{description}
-\item[\textbf{lethead\_prefix}
- $<$文字列$>$] ``''
-
-\end{description}
- 頭文字の前に付けるコマンド文字列。\begin{description}
-\item[\textbf{heading\_prefix}
- $<$文字列$>$] ``''
-
-\end{description}
- lethead\_prefixと同じ。\begin{description}
-\item[\textbf{lethead\_suffix}
- $<$文字列$>$] ``''
-
-\end{description}
- 頭文字の後に付けるコマンド文字列。\begin{description}
-\item[\textbf{heading\_suffix}
- $<$文字列$>$] ``''
-
-\end{description}
- lethead\_suffixと同じ。\begin{description}
-\item[\textbf{lethead\_flag}
- $<$文字列$>$] 0
-
-\end{description}
- 頭文字の出力のフラグ。0のとき出力しない。0より大きいときは英字を大文字で、0より小さいときは小文字で出力する。\begin{description}
-\item[\textbf{heading\_flag}
- $<$文字列$>$] 0
-
-\end{description}
- lethead\_flagと同じ。\begin{description}
-\item[\textbf{item\_0}
- $<$文字列$>$] ``$\backslash$n $\backslash$$\backslash$item ``
-
-\end{description}
- 主エントリ間に挿入するコマンド。\begin{description}
-\item[\textbf{item\_1}
- $<$文字列$>$] ``$\backslash$n $\backslash$$\backslash$subitem ``
-
-\end{description}
- サブエントリ間に挿入するコマンド。\begin{description}
-\item[\textbf{item\_2}
- $<$文字列$>$] ``$\backslash$n $\backslash$$\backslash$subsubitem ``
-
-\end{description}
- サブサブエントリ間に挿入するコマンド。\begin{description}
-\item[\textbf{item\_01}
- $<$文字列$>$] ``$\backslash$n $\backslash$$\backslash$subitem ``
-
-\end{description}
- 主〜サブエントリ間に挿入するコマンド。\begin{description}
-\item[\textbf{item\_x1}
- $<$文字列$>$] ``$\backslash$n $\backslash$$\backslash$subitem ``
-
-\end{description}
- 主〜サブエントリ間に挿入するコマンド。(主エントリにページ番号がないとき)\begin{description}
-\item[\textbf{item\_12}
- $<$文字列$>$] ``$\backslash$n $\backslash$$\backslash$subsubitem ``
-
-\end{description}
- サブ〜サブサブエントリ間に挿入するコマンド。\begin{description}
-\item[\textbf{item\_x2}
- $<$文字列$>$] ``$\backslash$n $\backslash$$\backslash$subsubitem ``
-
-\end{description}
- サブ〜サブサブエントリ間に挿入するコマンド。(サブエントリにページ番号がないとき)\begin{description}
-\item[\textbf{delim\_0}
- $<$文字列$>$] ``, ``
-
-\end{description}
- 主エントリと最初のページ番号の間の区切り文字列。\begin{description}
-\item[\textbf{delim\_1}
- $<$文字列$>$] ``, ``
-
-\end{description}
- サブエントリと最初のページ番号の間の区切り文字列。\begin{description}
-\item[\textbf{delim\_2}
- $<$文字列$>$] ``, ``
-
-\end{description}
- サブサブエントリと最初のページ番号の間の区切り文字列。\begin{description}
-\item[\textbf{delim\_n}
- $<$文字列$>$] ``, ``
-
-\end{description}
- ページ番号間の区切り文字列。どのエントリレベルにも共通。\begin{description}
-\item[\textbf{delim\_r}
- $<$文字列$>$] ``--''
-
-\end{description}
- ページ範囲を示すときの、ページ番号間の区切り文字列。\begin{description}
-\item[\textbf{delim\_t}
- $<$文字列$>$] ``''
-
-\end{description}
- ページ番号のリストの終端に出力する文字列。\begin{description}
-\item[\textbf{suffix\_2p}
- $<$文字列$>$] ``''
-
-\end{description}
- ページ番号が2ページ連続する場合に、delim\_n と2ページ目の番号の代わりに付加する文字列。 文字列が定義されている場合にのみ有効。\begin{description}
-\item[\textbf{suffix\_3p}
- $<$文字列$>$] ``''
-
-\end{description}
- ページ番号が3ページ連続する場合に、delim\_r と3ページ目の番号の代わりに付加する文字列。suffix\_mp より優先される。 文字列が定義されている場合にのみ有効。\begin{description}
-\item[\textbf{suffix\_mp}
- $<$文字列$>$] ``''
-
-\end{description}
- ページ番号が3ページまたはそれ以上連続する場合に、delim\_r と末尾のページ番号の代わりに付加する文字列。 文字列が定義されている場合にのみ有効。\begin{description}
-\item[\textbf{encap\_prefix}
- $<$文字列$>$] ``$\backslash$$\backslash$''
-
-\end{description}
- ページ番号にコマンドを付けるときの、コマンド名の前に付ける文字列。\begin{description}
-\item[\textbf{encap\_infix}
- $<$文字列$>$] ``\{``
-
-\end{description}
- ページ番号にコマンドを付けるときの、ページ番号の前に付ける文字列。\begin{description}
-\item[\textbf{encap\_suffix}
- $<$文字列$>$] ``\}''.
-
-\end{description}
- ページ番号にコマンドを付けるときの、ページ番号の後に付ける文字列。\begin{description}
-\item[\textbf{line\_max}
- $<$数値$>$] 72
-
-\end{description}
- １行の最大文字数。それを超えると折り返す。\begin{description}
-\item[\textbf{indent\_space}
- $<$文字列$>$] ``''
-
-\end{description}
- 折り返した行の頭に挿入するスペース。\begin{description}
-\item[\textbf{indent\_length}
- $<$数値$>$] 16
-
-\end{description}
- 折り返した行の頭に挿入されるスペースの長さ。\begin{description}
-\item[\textbf{symhead\_positive}
- $<$文字列$>$] ``Symbols''
-
-\end{description}
- lethead\_flag または heading\_flag が正数の場合に数字・記号の頭文字として出力する文字列。\begin{description}
-\item[\textbf{symhead\_negative}
- $<$文字列$>$] ``symbols''
-
-\end{description}
- lethead\_flag または heading\_flag が負数の場合に数字・記号の頭文字として出力する文字列。\begin{description}
-\item[\textbf{symbol}
- $<$文字列$>$] ``''
-
-\end{description}
- symbol\_flag が0でない場合に、数字・記号の頭文字として出力する文字列。 文字列が定義されていれば、symhead\_positive および symhead\_negative より優先される。(mendex専用) このパラメータが定義された場合、symhead\_positive および symhead\_negative より優先される。(mendex専用)\begin{description}
-\item[\textbf{symbol\_flag}
- $<$数値$>$] 1
-
-\end{description}
- 数字・記号の頭文字の出力フラグ。0のとき出力しない。(mendex専用)\begin{description}
-\item[\textbf{letter\_head}
- $<$数値$>$] 1
-
-\end{description}
- 日本語の頭文字の出力のフラグ。1のときカタカナ、2のときひらがなで出力する。(mendex専用)\begin{description}
-\item[\textbf{priority}
- $<$数値$>$] 0
-
-\end{description}
- 英字と日本語との混在した索引語のソート方法についてのフラグ。0でなければ英字と日本語との間に半角スペースを入れた状態でソートする。(mendex専用)\begin{description}
-\item[\textbf{character\_order}
- $<$文字列$>$] ``SEJ''
-
-\end{description}
- 記号、英字、日本語の優先順位。$^\prime$S$^\prime$は記号、$^\prime$E$^\prime$は英字、$^\prime$J$^\prime$は日本語を表す。(mendex専用)\section*{日本語の扱いについて}
-\emph{mendex}
- は日本語の索引をできるだけ楽に扱えるようになっています。 makeindexでは日本語の索引が正しく辞書順にソートするためにはひらがなまたはカタカナに揃え、拗音、撥音、濁点を除いた読みを付けなければなりませんでした(自動的に揃えるバージョンもある)。 mendexではカナについてはすべて自動的に揃え、また漢字については辞書ファイルを設定することにより各索引語ごとに読みを付ける作業をかなり解消できます。   以下に内部でのカナの変換例を示します。   かぶしきがいしゃ かふしきかいしや   マッキントッシュ まつきんとつしゆ   ワープロ わあふろ 辞書ファイルは$<$\emph{熟語  読み}
-$>$のリストで構成されます。 熟語と読みの区切りはタブまたはスペースです。 以下に辞書の例を示します。   漢字 かんじ   読み よみ   環境 かんきょう   α アルファ 辞書に登録する熟語については、読み方が１通りになるよう送り仮名を付けてください。 「表」、「性質」のように送り仮名によらず２通りの読み方ができる語についてはどちらか１つしか登録できません。他の読み方については各索引語へ読みを付けることで対応してください。 また、環境変数$<$ \emph{INDEXDEFAULTDICTIONARY}
-$>$に辞書ファイルを登録することにより、自動的に辞書を参照します。環境変数に登録した辞書は -d で指定した辞書と併用できます。\section*{ソート方法について}
-\emph{mendex}
- は通常は入力された索引語をそのままソートします。\emph{-l}
-オプションが付けられた場合、複数の単語で構成される索引語については、ソートするときに単語と単語の間のスペースを詰めてソートします。 ここでは前者を単語順ソート、後者を文字順ソートと呼ぶことにします。 文字順ソートの場合、実際に出力される文字列はスペースを含んだ状態のものですので、索引語自体が変化することはありません。 以下に例を示します。\emph{単語順ソート 文字順ソート}
-   X Window Xlib   Xlib XView   XView X Window また、日本語〜英字間でも似たようなソート方法があります。スタイルファイルで\emph{priority}
-を０以外に指定した場合、隣接した日本語と英字の間にスペースを入れてソートします。 以下に例を示します。\emph{priority=0 priority=1}
-   index sort indファイル   indファイル index sort\section*{環境変数}
-\emph{mendex}
- では以下のような環境変数を使用しています。\begin{description}
-\item[\emph{INDEXSTYLE}
-] 索引スタイルファイルがあるディレクトリ
-
-\end{description}
-\begin{description}
-\item[\emph{INDEXDEFAULTSTYLE}
-] デフォルトで参照する索引スタイルファイル
-
-\end{description}
-\begin{description}
-\item[\emph{INDEXDICTIONARY}
-] 辞書があるディレクトリ
-
-\end{description}
-\begin{description}
-\item[\emph{INDEXDEFAULTDICTIONARY}
-] 常に参照する辞書ファイル
-
-\end{description}
-\section*{詳細について}
- その他、詳細については \emph{makeindex}
- に準拠。\section*{問題点等}
- 複数のページ記法を使用する場合、ページ順に.idxファイルを与えないとページ番号を誤認することがあります。\section*{参照}
- tex(l), latex(l), makeindex(l)
-
-\begin{tabular}{cc}
- &
-
+\end{quote}
+
+辞書ファイルは ``\jMeta{漢字} \jMeta{読み}'' のリストで構成されます．
+\jMeta{漢字}と\jMeta{読み}の区切りはタブまたはスペースです． 以下に辞書の例を示します．
+%
+\begin{quote}
+\begin{tabular}{ll}
+漢字 & かんじ \\
+読み & よみ \\
+環境 & かんきょう \\
+$\alpha$ & アルファ
 \end{tabular}
+\end{quote}
 
+辞書に登録する漢字については，読み方が1通りになるよう送り仮名を付けてください．
+「表」，「性質」のように送り仮名によらず2通りの読み方ができる語についてはどちらか
+1つしか登録できません．他の読み方については各索引語へ読みを付けることで対応してください．
+また，環境変数 |INDEXDEFAULTDICTIONARY| に辞書ファイルを登録することにより，自動的に
+辞書を参照します．環境変数に登録した辞書は |-d| で指定した辞書と併用できます．
+
+\section{ソート方法について}
+
+\SoftName{mendex}は通常は入力された索引語をそのままソートします．|-l| オプションが
+付けられた場合，複数の単語で構成される索引語については，ソートするときに単語と単語の間の
+スペースを詰めてソートします．ここでは前者を単語順ソート，後者を文字順ソートと呼ぶことに
+します．文字順ソートの場合，実際に出力される文字列はスペースを含んだ状態のものですので，
+索引語自体が変化することはありません．以下に例を示します．
+%
+\begin{quote}
+\begin{tabular}{ll}
+\emph{単語順ソート} & \emph{文字順ソート} \\
+X Window & Xlib \\
+Xlib & XView \\
+XView & X Window
+\end{tabular}
+\end{quote}
+
+また，日本語−英字間でも似たようなソート方法があります．スタイルファイルで |priority| を|0|以外
+に指定した場合，隣接した日本語と英字の間にスペースを入れてソートします． 以下に例を示します．
+%
+\begin{quote}
+\begin{tabular}{ll}
+|priority 0| & |priority 1| \\
+index sort & indファイル \\
+indファイル & index sort
+\end{tabular}
+\end{quote}
+
+\section{環境変数について}
+
+\SoftName{mendex}では以下のような環境変数を使用しています．
+
+\begin{description}[leftmargin=5cm]
+\item[|INDEXSTYLE|]
+索引スタイルファイルがあるディレクトリ．
+
+\item[|INDEXDEFAULTSTYLE|]
+デフォルトで参照する索引スタイルファイル．
+
+\item[|INDEXDICTIONARY|]
+辞書があるディレクトリ．
+
+\item[|INDEXDEFAULTDICTIONARY|]
+常に参照する辞書ファイル．
+\end{description}
+
+\section{詳細について}
+その他，詳細については\SoftName{makeindex}に準拠．
+
+\section{既知の問題}
+複数のページ記法を使用する場合，ページ順に索引リストファイル（\FileExtension{idx}）を
+与えないとページ番号を誤認することがあります．
 
 \end{document}
