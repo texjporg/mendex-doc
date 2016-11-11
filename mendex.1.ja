@@ -1,5 +1,5 @@
-.if t .ds TX "T\h'-.15m'\v'.2v'E\v'-.2v'\h'-.12m'X
-.if t .ds LX L\v'-.22m'a\v'.22m'T\h'-.1667m'\v'.22m'E\h'-.125m'\v'-.22m'X
+.if t .ds TX T\\h'-0.1667m'\\v'0.20v'E\\v'-0.20v'\\h'-0.125m'X
+.if t .ds LX L\\h'-0.36m'\\v'-0.15v'\\s-2A\\s+2\\h'-0.15m'\\v'0.15v'T\\h'-0.1667m'\\v'0.20v'E\\v'-0.20v'\\h'-0.125m'X
 .TH MENDEX L
 .SH 名称
 mendex \- 索引整形ツール
