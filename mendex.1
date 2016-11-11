@@ -73,13 +73,13 @@ Set the starting page number of the output index file to be
 the following: \fIany\fR, \fIodd\fR, \fIeven\fR.
 .TP 10
 \fB-E\fR
-Set input/output kanji encoding to EUC.
+Set input/output kanji encoding to EUC-JP.
 .TP 10
 \fB-J\fR
-Set input/output kanji encoding to EUC.
+Set input/output kanji encoding to JIS (ISO-2022-JP).
 .TP 10
 \fB-S\fR
-Set input/output kanji encoding to ShiftJIS.
+Set input/output kanji encoding to Shift_JIS.
 .TP 10
 \fB-U\fR
 Set input/output kanji encoding to UTF-8.
@@ -96,15 +96,480 @@ The style file informs \fImendex\fR about the format of the
 \fIidx\fR input files and the intended format of the final
 output file. The format is uppercompatible with the one for
 \fImakeindex\fR. The style file contains a list of
-.RI < specifier , " attribute" >
-pairs.  There are two types of specifiers: input and output.
+<\fIspecifier\fR\ \fIattribute\fR> pairs.
+There are two types of specifiers: input and output.
 Pairs do not have to appear in any particular order.
-A line begun by `%' is a comment.
+A line begun by \'%\' is a comment.
 
-＝＝＝＝ここまでmendex.1.jaからコピペしてきて英訳＝＝＝＝
-英訳は makeindex.1 をベースにすると早い。
-＝＝＝＝＝＝＝＝＝＝ここから未編集です＝＝＝＝＝＝＝＝＝＝
+.PP
+\fB Input file style parameter\fR
+.TP 30
+\fBkeyword\fR  <string>
+"\\\\indexentry"
+.RS
+Command with argument of index entry.
+.RE
+.TP 30
+\fBarg_open\fR  <char>
+\'{\'
+.RS
+Opening delimiter which shows beginning of index entry.
+.RE
+.TP 30
+\fBarg_close\fR  <char>
+\'}\'
+.RS
+Closing delimiter which shows end of index entry.
+.RE
+.TP 30
+\fBrange_open\fR  <char>
+\'(\'
+.RS
+Opening delimiter which shows start of page range.
+.RE
+.TP 30
+\fBrange_close\fR  <char>
+\')\'
+.RS
+Closing delimiter which shows end of page range.
+.RE
+.TP 30
+\fBlevel\fR  <char>
+\'!\'
+.RS
+Delimiter which shows lower level.
+.RE
+.TP 30
+\fBactual\fR  <char>
+\'@\'
+.RS
+Symbol which shows the next sequence is to be appeared as index strings
+on output file.
+.RE
+.TP 30
+\fBencap\fR  <char>
+\'|\'
+.RS
+Symbol which shows the next sequence is to be used as command name
+attached with page number.
+.RE
+.TP 30
+\fBpage_compositor\fR  <string>
+"-"
+.RS
+Separator between page levels for a style with multi-levels of page numbers.
+.RE
+.TP 30
+\fBpage_precedence\fR  <string>
+"rnaRA"
+.RS
+Priority of expression for page number.
+\'R\' and \'r\' correspond to Roman. \'n\' corresponds to arabic numeral.
+\'A\' and \'a\' correspond to Latin alphabet.
+.RE
+.TP 30
+\fBquote\fR  <char>
+\'"\'
+.RS
+Escape character for \fImendex\fR parameters.
+.RE
+.TP 30
+\fBescape\fR  <char>
+\'\\\\\'
+.RS
+Escape character for general scripts.
+.RE
 
+\fBOutput file style parameter\fR
+
+\fBpreamble\fR  <string>
+"\\\\begin{theindex}\\n"
+.RS
+Preamble of output file.
+.RE
+.TP 30
+\fBpostamble\fR  <string>
+"\\n\\n\\\\end{theindex}\\n"
+.RS
+Postamble of output file.
+.RE
+.TP 30
+\fBsetpage_prefix\fR  <string>
+"\\n  \\\\setcounter{page}{"
+.RS
+Prefix of page number if start page is designated.
+.RE
+.TP 30
+\fBsetpage_suffix\fR  <string>
+"}\\n"
+.RS
+Suffix of page number if start page is designated.
+.RE
+.TP 30
+\fBgroup_skip\fR  <string>
+"\\n\\n  \\\\indexsapce\\n"
+.RS
+Strings before new section of index to insert vertical space.
+.RE
+.TP 30
+\fBlethead_prefix\fR  <string>
+""
+.RS
+Prefix of heading for newly appeared heading letter.
+.RE
+.TP 30
+\fBheading_prefix\fR  <string>
+""
+.RS
+As same as lethead_prefix.
+.RE
+.TP 30
+\fBlethead_suffix\fR  <string>
+""
+.RS
+Suffix of heading for newly appeared heading letter.
+.RE
+.TP 30
+\fBheading_suffix\fR  <string>
+""
+.RS
+As same as lethead_suffix.
+.RE
+.TP 30
+\fBlethead_flag\fR  <string>
+0
+.RS
+Flag to control output of heading letters.
+\'0\', \'1\' and \'-1\' respectively denotes no output, uppercase and lowercase.
+.RE
+.TP 30
+\fBheading_flag\fR  <string>
+0
+.RS
+As same as lethead_flag.
+.RE
+.TP 30
+\fBitem_0\fR  <string>
+"\\n  \\\\item "
+.RS
+Command sequence inserted between primary level entry.
+.RE
+.TP 30
+\fBitem_1\fR  <string>
+"\\n     \\\\subitem "
+.RS
+Command sequence inserted between sub level entry.
+.RE
+.TP 30
+\fBitem_2\fR  <string>
+"\\n       \\\\subsubitem "
+.RS
+Command sequence inserted between sub-sub level entry.
+.RE
+.TP 30
+\fBitem_01\fR  <string>
+"\\n    \\\\subitem "
+.RS
+Command sequence inserted between primaly and sub level entry.
+.RE
+.TP 30
+\fBitem_x1\fR  <string>
+"\\n    \\\\subitem "
+.RS
+Command sequence inserted between primary and sub level entry
+when main entry are not with page number.
+.RE
+.TP 30
+\fBitem_12\fR  <string>
+"\\n    \\\\subsubitem "
+.RS
+Command sequence inserted between sub and subsub level entry.
+.RE
+.TP 30
+\fBitem_x2\fR  <string>
+"\\n    \\\\subsubitem "
+.RS
+Command sequence inserted between sub and subsub level entry
+when sub level entry are not with page number.
+.RE
+.TP 30
+\fBdelim_0\fR  <string>
+", "
+.RS
+Delimiter string between primary level entry and first page number.
+.RE
+.TP 30
+\fBdelim_1\fR  <string>
+", "
+.RS
+Delimiter string between sub level entry and first page number.
+.RE
+.TP 30
+\fBdelim_2\fR  <string>
+", "
+.RS
+Delimiter string between subsub level entry and first page number.
+.RE
+.TP 30
+\fBdelim_n\fR  <string>
+", "
+.RS
+Delimiter string between page number
+commonly used for any entry level.
+.RE
+.TP 30
+\fBdelim_r\fR  <string>
+"--"
+.RS
+Delimiter string between pages to show page range.
+.RE
+.TP 30
+\fBdelim_t\fR  <string>
+""
+.RS
+Delimiter string output at end of page number list.
+.RE
+.TP 30
+\fBsuffix_2p\fR  <string>
+""
+.RS
+String to add except for delim_n and next page number
+when page number continues 2 pages.
+.RE
+It works only when the option is specified.
+.RE
+.TP 30
+\fBsuffix_3p\fR  <string>
+""
+.RS
+String to add except for delim_r and last page number
+when page number continues 3 or more pages.
+The option is prior to suffix_mp.
+.RE
+It works only when the option is specified.
+.RE
+.TP 30
+\fBsuffix_mp\fR  <string>
+""
+.RS
+String to add except for delim_r and last page number
+when page number continues 3 or more pages.
+The option is prior to suffix_mp.
+.RE
+It works only when the option is specified.
+.RE
+.TP 30
+\fBencap_prefix\fR  <string>
+"\\\\"
+.RS
+Prefix before command name
+when command are added to page number.
+.RE
+.TP 30
+\fBencap_infix\fR  <string>
+"{"
+.RS
+Prefix before page number
+when command are added to page number.
+.RE
+.TP 30
+\fBencap_suffix\fR  <string>
+"}".
+.RS
+Suffix after page number
+when command are added to page number.
+.RE
+.TP 30
+\fBline_max\fR  <number>
+72
+.RS
+Maximum number of one line.
+If exceed the number, lines are folded.
+.RE
+.TP 30
+\fBindent_space\fR  <string>
+"\t\t"
+.RS
+Space for indent which inserted to
+top of folded line.
+.RE
+.TP 30
+\fBindent_length\fR  <number>
+16
+.RS
+Length of space for indent which inserted to top of folded line.
+.RE
+.TP 30
+\fBsymhead_positive\fR  <string>
+"Symbols"
+.RS
+Strings to output as heading letter for numbers and symbols
+when lethead_flag or heading_flag is positive number.
+.RE
+.TP 30
+\fBsymhead_negative\fR  <string>
+"symbols"
+.RS
+Strings to output as heading letter for numbers and symbols
+when lethead_flag or heading_flag is negative number.
+.RE
+.TP 30
+\fBsymbol\fR  <string>
+""
+.RS
+Strings to output as heading letter for numbers and symbols
+when symbol_flag is non zero.
+.RE
+If specified, the option is prior to symhead_positive and symhead_negative.
+(Extended by mendex)
+.RE
+.TP 30
+\fBsymbol_flag\fR  <number>
+1
+.RS
+Flag to output of symbol. If \'0\', do not output.
+(Extended by mendex)
+.RE
+.TP 30
+\fBletter_head\fR  <number>
+1
+.RS
+Flag of heading letter for Japanese Kana.
+If \'1\' and \'2\', Katakana and Hiragana is used, respectively.
+(Extended by mendex)
+.RE
+.TP 30
+\fBpriority\fR  <number>
+0
+.RS
+Flag of sorting method for index words composed of
+Japanese and non-Japanese (ex. Latin scripts).
+If non zero, space (U+20) is inserted between
+Japanese sequence and no-Japanese sequence in sorting procedure.
+(Extended by mendex)
+.RE
+.TP 30
+\fBcharacter_order\fR  <string>
+"SEJ"
+.RS
+Order of scripts and symbols.
+\'S\', \'E\' and 'J' respectively denotes symbol, English and Japanese.
+(Extended by mendex)
+.RE
+.PP
+.SH ABOUT JAPANESE PROCESSING
+.PP
+\fImendex\fR has features to easily treat Japanese indexes.
+.RE
+Japanese kanji words are usually sorted with order of syllables \'Yomi\' represented by
+kana (Hiragana, Katakana) scripts.
+\fImendex\fR accepts directly specified syllables in kana expression on an input file and
+also accepts conversion from index words to kana scripts with Japanese Dictionary.
+.RE
+The feature of Japanese dectionary will help to reduce burden specifing syllables
+for each kanji word.
+
+.LP
+Examples of internal simplification of syllables are shown below.
+.PP
+.RS
+.br
+かぶしきがいしゃ		かふしきかいしや
+.br
+マッキントッシュ		まつきんとつしゆ
+.br
+ワープロ				わあふろ
+.RE
+.LP
+The dictionary file consists of list with <\'index word\' \'syllables\'>.
+An index word can be in any scripts. Syllables must be in Hiragana or Katakana scripts.
+The delimiter between the index word and the syllables is one or more tab(s) or space(s).
+.RE
+An example of a Japanese dictionary are shown below.
+.PP
+.RS
+.br
+漢字		かんじ
+.br
+読み		よみ
+.br
+環境		かんきょう
+.br
+α		アルファ
+.RE
+.LP
+One index word can be corresponds to one Yomi.
+Though one index 「表」 can be corresponding to Yomi 「ひょう」 and 「おもて」,
+only one Yomi can be registard on the dictionary.
+If two Yomi's are to be output, another Yomi should be specified
+in Kana expression on the input file.
+.RE
+Moreover, a dictionary file are automatically refered
+by setting the file name at an environment variable INDEXDEFAULTDICTIONARY.
+The dictionary setted by the environment variable can be used
+togather with file(s) specified by \fI-d\fR option.
+.PP
+.SH ABOUT SORTING PRECEDURE
+.PP
+\fImendex\fR sorts indexes as is (\'sort by word order\') by default.
+Setting \fI-l\fR option, spaces between words in an index are truncated prior to
+sorting procedure (\'sort by character order\').
+.RE
+Even when sort by character order, the index at output remains the original sequence
+without the truncation.
+.RE
+Follows show an example.
+.PP
+.RS
+\fIsort by word order		sort by character order\fR
+.br
+X Window				Xlib
+.br
+Xlib					XView
+.br
+XView				X Window
+.RE
+.LP
+In addition, two sorting method can be selected for indexes
+with Japanese Kana and another scripts (e.g. Latin script).
+Setting \fIpriority\fR 0 (default) and 1 at a style file,
+a space is respectively inserted and not inserted
+between Japanese Kana and another script prior to sorting procedure.
+.RE
+Follows show an example.
+.PP
+.RS
+\fIpriority=0			priority=1\fR
+.br
+index sort			indファイル
+.br
+indファイル			index sort
+.RE
+.PP
+.SH ENVIRONMENT VARIABLES
+\fImendex\fR refers environment variables as follows.
+.PP
+.TP 10
+\fIINDEXSTYLE\fR
+Directory where index style file are exist.
+.TP 10
+\fIINDEXDEFAULTSTYLE\fR
+Index style file to refer as default.
+.TP 10
+\fIINDEXDICTIONARY\fR
+Directory where dictionary file are exist.
+.TP 10
+\fIINDEXDEFAULTDICTIONARY\fR
+Dictionary file which is automatically read.
+.PP
+.SH DETAIL
+Detailed specification is compatible with \fImakeindex\fR.
+.PP
+.SH KNOWN ISSUES
+When plural page number expression is used, \fI.idx\fR files should be
+specified along with the order of page numbers. Otherwise,
+wrong page numbers might be outputted.
+.PP
 .SH "SEE ALSO"
 tex(l), latex(l), makeindex(l)
 .SH AUTHOR
