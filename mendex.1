@@ -107,31 +107,31 @@ A line begun by \'%\' is a comment.
 \fBkeyword\fR  <string>
 "\\\\indexentry"
 .RS
-Command with argument of index entry.
+Command with an argument of index entry.
 .RE
 .TP 30
 \fBarg_open\fR  <char>
 \'{\'
 .RS
-Opening delimiter which shows beginning of index entry.
+Opening delimiter which shows the beginning of index entry.
 .RE
 .TP 30
 \fBarg_close\fR  <char>
 \'}\'
 .RS
-Closing delimiter which shows end of index entry.
+Closing delimiter which shows the end of index entry.
 .RE
 .TP 30
 \fBrange_open\fR  <char>
 \'(\'
 .RS
-Opening delimiter which shows start of page range.
+Opening delimiter which shows the beginning of page range.
 .RE
 .TP 30
 \fBrange_close\fR  <char>
 \')\'
 .RS
-Closing delimiter which shows end of page range.
+Closing delimiter which shows the end of page range.
 .RE
 .TP 30
 \fBlevel\fR  <char>
@@ -143,15 +143,15 @@ Delimiter which shows lower level.
 \fBactual\fR  <char>
 \'@\'
 .RS
-Symbol which shows the next sequence is to be appeared as index strings
-on output file.
+Symbol which shows the next sequence is to appear as index strings
+in the output file.
 .RE
 .TP 30
 \fBencap\fR  <char>
 \'|\'
 .RS
 Symbol which shows the next sequence is to be used as command name
-attached with page number.
+attached to the page number.
 .RE
 .TP 30
 \fBpage_compositor\fR  <string>
@@ -209,7 +209,7 @@ Suffix of page number if start page is designated.
 \fBgroup_skip\fR  <string>
 "\\n\\n  \\\\indexsapce\\n"
 .RS
-Strings before new section of index to insert vertical space.
+Strings to insert vertical space before new section of index.
 .RE
 .TP 30
 \fBlethead_prefix\fR  <string>
@@ -221,7 +221,7 @@ Prefix of heading for newly appeared heading letter.
 \fBheading_prefix\fR  <string>
 ""
 .RS
-As same as lethead_prefix.
+Same as \fBlethead_prefix\fR.
 .RE
 .TP 30
 \fBlethead_suffix\fR  <string>
@@ -233,7 +233,7 @@ Suffix of heading for newly appeared heading letter.
 \fBheading_suffix\fR  <string>
 ""
 .RS
-As same as lethead_suffix.
+Same as \fBlethead_suffix\fR.
 .RE
 .TP 30
 \fBlethead_flag\fR  <string>
@@ -246,51 +246,51 @@ Flag to control output of heading letters.
 \fBheading_flag\fR  <string>
 0
 .RS
-As same as lethead_flag.
+Same as \fBlethead_flag\fR.
 .RE
 .TP 30
 \fBitem_0\fR  <string>
 "\\n  \\\\item "
 .RS
-Command sequence inserted between primary level entry.
+Command sequence inserted between primary level entries.
 .RE
 .TP 30
 \fBitem_1\fR  <string>
 "\\n     \\\\subitem "
 .RS
-Command sequence inserted between sub level entry.
+Command sequence inserted between sub level entries.
 .RE
 .TP 30
 \fBitem_2\fR  <string>
 "\\n       \\\\subsubitem "
 .RS
-Command sequence inserted between sub-sub level entry.
+Command sequence inserted between subsub level entries.
 .RE
 .TP 30
 \fBitem_01\fR  <string>
 "\\n    \\\\subitem "
 .RS
-Command sequence inserted between primaly and sub level entry.
+Command sequence inserted between primaly and sub level entries.
 .RE
 .TP 30
 \fBitem_x1\fR  <string>
 "\\n    \\\\subitem "
 .RS
-Command sequence inserted between primary and sub level entry
-when main entry are not with page number.
+Command sequence inserted between primary and sub level entries
+when main entry does not have page number.
 .RE
 .TP 30
 \fBitem_12\fR  <string>
 "\\n    \\\\subsubitem "
 .RS
-Command sequence inserted between sub and subsub level entry.
+Command sequence inserted between sub and subsub level entries.
 .RE
 .TP 30
 \fBitem_x2\fR  <string>
 "\\n    \\\\subsubitem "
 .RS
-Command sequence inserted between sub and subsub level entry
-when sub level entry are not with page number.
+Command sequence inserted between sub and subsub level entries
+when sub level entry does not have page number.
 .RE
 .TP 30
 \fBdelim_0\fR  <string>
@@ -314,7 +314,7 @@ Delimiter string between subsub level entry and first page number.
 \fBdelim_n\fR  <string>
 ", "
 .RS
-Delimiter string between page number
+Delimiter string between page numbers
 commonly used for any entry level.
 .RE
 .TP 30
@@ -327,36 +327,35 @@ Delimiter string between pages to show page range.
 \fBdelim_t\fR  <string>
 ""
 .RS
-Delimiter string output at end of page number list.
+Delimiter string output at the end of page number list.
 .RE
 .TP 30
 \fBsuffix_2p\fR  <string>
 ""
 .RS
-String to add except for delim_n and next page number
-when page number continues 2 pages.
+String to be inserted in place of \fBdelim_n\fR and the next page
+number when the two pages are contiguous.
 .RE
-It works only when the option is specified.
+It works only when the parameter is defined.
 .RE
 .TP 30
 \fBsuffix_3p\fR  <string>
 ""
 .RS
-String to add except for delim_r and last page number
-when page number continues 3 or more pages.
-The option is prior to suffix_mp.
+String to be inserted in place of \fBdelim_r\fR and the last page
+number when the three pages are contiguous.
+The parameter is prior to \fBsuffix_mp\fR.
 .RE
-It works only when the option is specified.
+It works only when the parameter is defined.
 .RE
 .TP 30
 \fBsuffix_mp\fR  <string>
 ""
 .RS
-String to add except for delim_r and last page number
-when page number continues 3 or more pages.
-The option is prior to suffix_mp.
+String to be inserted in place of \fBdelim_r\fR and the last page
+number when the three or more pages are contiguous.
 .RE
-It works only when the option is specified.
+It works only when the parameter is defined.
 .RE
 .TP 30
 \fBencap_prefix\fR  <string>
@@ -509,7 +508,7 @@ by setting the file name at an environment variable INDEXDEFAULTDICTIONARY.
 The dictionary setted by the environment variable can be used
 togather with file(s) specified by \fI-d\fR option.
 .PP
-.SH ABOUT SORTING PRECEDURE
+.SH ABOUT SORTING PROCEDURE
 .PP
 \fImendex\fR sorts indexes as is (\'sort by word order\') by default.
 Setting \fI-l\fR option, spaces between words in an index are truncated prior to
