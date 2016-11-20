@@ -67,7 +67,7 @@ mendex \- 索引整形ツール
 漢字コードをUTF-8に指定します。入力ファイル、出力ファイルともUTF-8として扱います。
 .TP 10
 \fB-I\fI enc\fR
-内部バッファのコードを\fIenc\fR に指定します。\fIenc\fR には \fIeuc\fR(EUC-JP) または \fIutf8\fR(UTF-8)が指定可能です。
+内部バッファのコードを\fIenc\fR に指定します。\fIenc\fR には \fIeuc\fR (EUC-JP) または \fIutf8\fR (UTF-8)が指定可能です。
 .TP 10
 \fB--\fR
 以降はオプション文字列と解釈しません。
@@ -153,7 +153,7 @@ mendexのパラメータ文字に対するエスケープキャラクタ。
 .RE
 
 \fB 出力ファイルスタイルパラメータ\fR
-
+.TP 30
 \fBpreamble\fR  <文字列>
 "\\\\begin{theindex}\\n"
 .RS
@@ -179,7 +179,7 @@ mendexのパラメータ文字に対するエスケープキャラクタ。
 .RE
 .TP 30
 \fBgroup_skip\fR  <文字列>
-"\\n\\n  \\\\indexsapce\\n"
+"\\n\\n  \\\\indexspace\\n"
 .RS
 新項目(頭文字)の前に挿入する縦スペースを表す文字列。
 .RE
@@ -419,7 +419,7 @@ mendexではカナについてはすべて自動的に揃え、また漢字に�
 .br
 マッキントッシュ		まつきんとつしゆ
 .br
-ワープロ				わあふろ
+ワープロ			わあふろ
 .RE
 .LP
 辞書ファイルは<\fI熟語\ \ 読み\fR>のリストで構成されます。
@@ -455,9 +455,9 @@ mendexではカナについてはすべて自動的に揃え、また漢字に�
 .RS
 \fI単語順ソート			文字順ソート\fR
 .br
-X Window				Xlib
+X Window			Xlib
 .br
-Xlib					XView
+Xlib				XView
 .br
 XView				X Window
 .RE

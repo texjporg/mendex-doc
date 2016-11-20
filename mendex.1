@@ -9,7 +9,7 @@ mendex \- Japanese index processor
 .PP
 The program \fImendex\fR is a general purpose hierarchical index generator;
 it accepts one or more input files (\fI.idx\fR; often produced by a text
-formatter such as \*(LX, sorts the entries, and produces an output file
+formatter such as \*(LX), sorts the entries, and produces an output file
 which can be formatted. It is almost compatible with \fImakeindex\fR, and
 additional feature for handling syllables of kanji words is also available.
 .RE
@@ -37,7 +37,7 @@ messages and warnings.
 \fB-r\fR
 Disable implicit page range formation. By default, three or
 more successive pages are automatically abbreviated as a range
-(e.g. 1\(em5).
+(e.g. 1\(en5).
 .TP 10
 \fB-c\fR
 Compress sequence of intermediate blanks (space(s) and/or tab(s)) into a space
@@ -45,7 +45,7 @@ and ignore leading and trailing blank(s).
 By default, blanks in the index key are retained.
 .TP 10
 \fB-g\fR
-Make Japanese index head A\-line (\fIA, Ka, Sa, ...\fR) of the gojuon table (Japanese
+Make Japanese index head \fIA\fR-line (\fIA, Ka, Sa, ...\fR) of the gojuon table (Japanese
 syllabary). By default, all the characters in the gojuon table
 are used.
 .TP 10
@@ -89,7 +89,7 @@ Set input/output kanji encoding to UTF-8.
 .TP 10
 \fB-I\fI enc\fR
 Set internal encoding to \fIenc\fR. The argument \fIenc\fR
-may be \fIeuc\fR(EUC-JP) or \fIutf8\fR(UTF-8).
+may be \fIeuc\fR (EUC-JP) or \fIutf8\fR (UTF-8).
 .TP 10
 \fB--\fR
 Arguments after \fB--\fR are not taken as options.
@@ -105,7 +105,7 @@ Pairs do not have to appear in any particular order.
 A line begun by \'%\' is a comment.
 
 .PP
-\fB Input file style parameter\fR
+\fBInput file style parameter\fR
 .TP 30
 \fBkeyword\fR  <string>
 "\\\\indexentry"
@@ -184,7 +184,7 @@ Escape character for general scripts.
 .RE
 
 \fBOutput file style parameter\fR
-
+.TP 30
 \fBpreamble\fR  <string>
 "\\\\begin{theindex}\\n"
 .RS
@@ -210,7 +210,7 @@ Suffix of page number if start page is designated.
 .RE
 .TP 30
 \fBgroup_skip\fR  <string>
-"\\n\\n  \\\\indexsapce\\n"
+"\\n\\n  \\\\indexspace\\n"
 .RS
 Strings to insert vertical space before new section of index.
 .RE
@@ -480,7 +480,7 @@ Examples of internal simplification of syllables are shown below.
 .br
 マッキントッシュ		まつきんとつしゆ
 .br
-ワープロ				わあふろ
+ワープロ			わあふろ
 .RE
 .LP
 The dictionary file consists of list with <\'index_word\' \'syllables\'>.
@@ -526,9 +526,9 @@ Follows show an example.
 .RS
 \fIsort by word order		sort by character order\fR
 .br
-X Window				Xlib
+X Window			Xlib
 .br
-Xlib					XView
+Xlib				XView
 .br
 XView				X Window
 .RE
@@ -554,13 +554,13 @@ indファイル			index sort
 .PP
 .TP 10
 \fIINDEXSTYLE\fR
-Directory where index style file are exist.
+Directory where index style files exist.
 .TP 10
 \fIINDEXDEFAULTSTYLE\fR
-Index style file to refer as default.
+Index style file to be referred to as default.
 .TP 10
 \fIINDEXDICTIONARY\fR
-Directory where dictionary file are exist.
+Directory where dictionary files exist.
 .TP 10
 \fIINDEXDEFAULTDICTIONARY\fR
 Dictionary file which is automatically read.
@@ -571,7 +571,7 @@ Detailed specification is compatible with \fImakeindex\fR.
 .SH KNOWN ISSUES
 When plural page number expression is used, \fI.idx\fR files should be
 specified along with the order of page numbers. Otherwise,
-wrong page numbers might be outputted.
+wrong page numbers might be output.
 .PP
 .SH "SEE ALSO"
 tex(l), latex(l), makeindex(l)
