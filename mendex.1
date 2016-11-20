@@ -28,7 +28,7 @@ Take input from stdin, even when index files are specified.
 .TP 10
 \fB-l\fR
 Set \'sort by character order\'. By default, \'sort by word order\' is used.
-Details are described bellow.
+Details are described below.
 .TP 10
 \fB-q\fR
 Quiet mode; send no message to \fIstderr\fR, except error
@@ -500,14 +500,14 @@ An example of a Japanese dictionary is shown below.
 α		アルファ
 .RE
 .LP
-Here, one index word must be corresponds to one Yomi.
+Here, one index word must correspond to one Yomi.
 Though one index  (ex. 「表」) is generally possible to correspond to
 plural Yomi\'s (ex. 「ひょう」 and 「おもて」),
 only one Yomi can be registard on the dictionary.
 If two Yomi\'s are to be output, another Yomi should be specified
 in kana expression (ex. \\index{ひょう@表} or \\index{おもて@表}) on the input file.
 .RE
-Moreover, a dictionary file is automatically refered
+Moreover, a dictionary file is automatically referred
 by setting the file name at an environment variable \fIINDEXDEFAULTDICTIONARY\fR.
 The dictionary set by the environment variable can be used
 togather with file(s) specified by \fI-d\fR option.
