@@ -4,7 +4,7 @@
 .SH NAME
 mendex \- Japanese index processor
 .SH SYNOPSIS
-\fBmendex\fR [-ilqrcgfEJSU] [\fB-s\fI sty\fR] [\fB-d\fI dic\fR] [\fB-o\fI ind\fR] [\fB-t\fI log\fR] [\fB-p\fI no\fR] [\fB-I\fI enc\fR] [\fB--\fR] [\fI idx0 idx1 idx2 ...\fR]
+\fBmendex\fR [-ilqrcgfEJSU] [\fB-s\fI sty\fR] [\fB-d\fI dic\fR] [\fB-o\fI ind\fR] [\fB-t\fI log\fR] [\fB-p\fI no\fR] [\fB-I\fI enc\fR] [\fB--help\fR] [\fB--\fR] [\fI idx0 idx1 idx2 ...\fR]
 .SH DESCRIPTION
 .PP
 The program \fImendex\fR is a general purpose hierarchical index generator;
@@ -20,31 +20,33 @@ The index can have up to three levels (0, 1, and 2) of subitem nesting.
 .SH OPTIONS
 .PP
 .TP 10
-\fB-h\fR, \fB--help\fR
+\fB--help\fR
 Show summary of options.
 .TP 10
 \fB-i\fR
 Take input from stdin, even when index files are specified.
 .TP 10
 \fB-l\fR
-Letter ordering; by default, word ordering is used.
+Set \'sort by character order\'. By default, \'sort by word order\' is used.
+Details are described bellow.
 .TP 10
 \fB-q\fR
 Quiet mode; send no message to \fIstderr\fR, except error
 messages and warnings.
 .TP 10
 \fB-r\fR
-Disable implicit page range formation; by default, three or
+Disable implicit page range formation. By default, three or
 more successive pages are automatically abbreviated as a range
 (e.g. 1\(em5).
 .TP 10
 \fB-c\fR
-Compress intermediate blanks (ignoring leading and trailing
-blanks and tabs). By default, blanks in the index key are retained.
+Compress sequence of intermediate blanks (space(s) and/or tab(s)) into a space
+and ignore leading and trailing blank(s).
+By default, blanks in the index key are retained.
 .TP 10
 \fB-g\fR
-Make Japanese index head A\-line of the gojuon table (Japanese
-syllabary) ; by default, all the characters in the gojuon table
+Make Japanese index head A\-line (\fIA, Ka, Sa, ...\fR) of the gojuon table (Japanese
+syllabary). By default, all the characters in the gojuon table
 are used.
 .TP 10
 \fB-f\fR
@@ -55,7 +57,7 @@ Employ \fIsty\fR as the style file.
 .TP 10
 \fB-d\fI dic\fR
 Employ \fIdic\fR as the dictionary file. The dictionary file is
-composed of lists of <\fIkanji\fR\ \fIsyllables\fR>.
+composed of lists of <\fIindex_word\fR\ \fIsyllables\fR>.
 .TP 10
 \fB-o\fI ind\fR
 Employ \fIind\fR as the output index file. By default, the file
@@ -68,9 +70,10 @@ is created by appending the extension \fIilg\fR to the base name
 of the first input file.
 .TP 10
 \fB-p\fI no\fR
-Set the starting page number of the output index file to be
+Set the starting page number of the output index list to be
 \fIno\fR. The argument \fIno\fR may be numerical or one of
-the following: \fIany\fR, \fIodd\fR, \fIeven\fR.
+the following: \fIany\fR (the next page to the end of contents), \fIodd\fR
+(the next odd page to the end of contents), \fIeven\fR (the next even page to the end of contents).
 .TP 10
 \fB-E\fR
 Set input/output kanji encoding to EUC-JP.
@@ -94,7 +97,7 @@ Arguments after \fB--\fR are not taken as options.
 .SH "STYLE FILE"
 The style file informs \fImendex\fR about the format of the
 \fIidx\fR input files and the intended format of the final
-output file. The format is uppercompatible with the one for
+output file. The format is upper compatible with the one for
 \fImakeindex\fR. The style file contains a list of
 <\fIspecifier\fR\ \fIattribute\fR> pairs.
 There are two types of specifiers: input and output.
@@ -361,22 +364,22 @@ It works only when the parameter is defined.
 \fBencap_prefix\fR  <string>
 "\\\\"
 .RS
-Prefix before command name
-when command are added to page number.
+Prefix for an encapsulating command
+when the encapsulating command is added to the page number.
 .RE
 .TP 30
 \fBencap_infix\fR  <string>
 "{"
 .RS
-Prefix before page number
-when command are added to page number.
+Prefix just before the page number
+when the encapsulating command is added to the page number.
 .RE
 .TP 30
 \fBencap_suffix\fR  <string>
 "}".
 .RS
-Suffix after page number
-when command are added to page number.
+Suffix after the page number
+when the encapsulating command is added to the page number.
 .RE
 .TP 30
 \fBline_max\fR  <number>
@@ -443,8 +446,8 @@ If \'1\' and \'2\', Katakana and Hiragana is used, respectively.
 .RS
 Flag of sorting method for index words composed of
 Japanese and non-Japanese (ex. Latin scripts).
-If non zero, space (U+20) is inserted between
-Japanese sequence and no-Japanese sequence in sorting procedure.
+If non zero, one space (U+20) is inserted between
+Japanese sequence and non-Japanese sequence in sorting procedure.
 (Extended by mendex)
 .RE
 .TP 30
@@ -460,12 +463,12 @@ Order of scripts and symbols.
 .PP
 \fImendex\fR has features to easily treat Japanese indexes.
 .RE
-Japanese kanji words are usually sorted with order of syllables \'Yomi\' represented by
-kana (Hiragana, Katakana) scripts.
+Japanese kanji words are usually sorted with order of syllables
+\fI\'Yomi\'\fR represented by kana (Hiragana, Katakana) scripts.
 \fImendex\fR accepts directly specified syllables in kana expression on an input file and
-also accepts conversion from index words to kana scripts with Japanese Dictionary.
+also accepts conversion from index words to kana scripts with Japanese dictionaries.
 .RE
-The feature of Japanese dectionary will help to reduce burden specifing syllables
+The feature of Japanese dictionaries will help to reduce burden specifing syllables
 for each kanji word.
 
 .LP
@@ -480,11 +483,11 @@ Examples of internal simplification of syllables are shown below.
 ワープロ				わあふろ
 .RE
 .LP
-The dictionary file consists of list with <\'index word\' \'syllables\'>.
+The dictionary file consists of list with <\'index_word\' \'syllables\'>.
 An index word can be in any scripts. Syllables must be in Hiragana or Katakana scripts.
 The delimiter between the index word and the syllables is one or more tab(s) or space(s).
 .RE
-An example of a Japanese dictionary are shown below.
+An example of a Japanese dictionary is shown below.
 .PP
 .RS
 .br
@@ -497,15 +500,16 @@ An example of a Japanese dictionary are shown below.
 α		アルファ
 .RE
 .LP
-One index word can be corresponds to one Yomi.
-Though one index 「表」 can be corresponding to Yomi 「ひょう」 and 「おもて」,
+Here, one index word must be corresponds to one Yomi.
+Though one index  (ex. 「表」) is generally possible to correspond to
+plural Yomi\'s (ex. 「ひょう」 and 「おもて」),
 only one Yomi can be registard on the dictionary.
-If two Yomi's are to be output, another Yomi should be specified
-in Kana expression on the input file.
+If two Yomi\'s are to be output, another Yomi should be specified
+in kana expression (ex. \\index{ひょう@表} or \\index{おもて@表}) on the input file.
 .RE
-Moreover, a dictionary file are automatically refered
-by setting the file name at an environment variable INDEXDEFAULTDICTIONARY.
-The dictionary setted by the environment variable can be used
+Moreover, a dictionary file is automatically refered
+by setting the file name at an environment variable \fIINDEXDEFAULTDICTIONARY\fR.
+The dictionary set by the environment variable can be used
 togather with file(s) specified by \fI-d\fR option.
 .PP
 .SH ABOUT SORTING PROCEDURE
@@ -530,7 +534,7 @@ XView				X Window
 .RE
 .LP
 In addition, two sorting method can be selected for indexes
-with Japanese Kana and another scripts (e.g. Latin script).
+with Japanese kana and another scripts (e.g. Latin script).
 Setting \fIpriority\fR 0 (default) and 1 at a style file,
 a space is respectively inserted and not inserted
 between Japanese Kana and another script prior to sorting procedure.

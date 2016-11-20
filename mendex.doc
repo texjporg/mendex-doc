@@ -4,7 +4,7 @@ mendex - 索引整形ツール
 
 使用法
 
-    mendex [-ilqrcgfEJSU] [-s sty] [-d dic] [-o ind] [-t log] [-p no] [-I enc] [--] [idx0 idx1 idx2 ...]
+    mendex [-ilqrcgfEJSU] [-s sty] [-d dic] [-o ind] [-t log] [-p no] [-I enc] [--help] [--] [idx0 idx1 idx2 ...]
 
 
 解説
@@ -18,6 +18,8 @@ mendex - 索引整形ツール
 
 
 オプション
+
+   --help  オプションの要約を表示します。
 
    -i      索引リストファイルが指定されている場合でも、標準入力を索引リストとし
            て使用します。

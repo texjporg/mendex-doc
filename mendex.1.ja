@@ -4,7 +4,7 @@
 .SH 名称
 mendex \- 索引整形ツール
 .SH 使用法
-\fBmendex\fR [-ilqrcgfEJSU] [\fB-s\fI sty\fR] [\fB-d\fI dic\fR] [\fB-o\fI ind\fR] [\fB-t\fI log\fR] [\fB-p\fI no\fR] [\fB-I\fI enc\fR] [\fB--\fR] [\fI idx0 idx1 idx2 ...\fR]
+\fBmendex\fR [-ilqrcgfEJSU] [\fB-s\fI sty\fR] [\fB-d\fI dic\fR] [\fB-o\fI ind\fR] [\fB-t\fI log\fR] [\fB-p\fI no\fR] [\fB-I\fI enc\fR] [\fB--help\fR] [\fB--\fR] [\fI idx0 idx1 idx2 ...\fR]
 .SH 解説
 .PP
 \fImendex\fR は文書の索引を作成するツールです。 LaTeX により抽出された索引リストファイル(\fI.idx\fR)を並べ替え、実際の索引のソースファイルの形に整形します。 \fImakeindex\fR と互換性があり、さらに「読み」の扱いの手間を減らすように特殊化されています。
@@ -14,6 +14,9 @@ mendex \- 索引整形ツール
 索引の階層は３段階まで作成することができます。
 .SH オプション
 .PP
+.TP 10
+\fB--help\fR
+オプションの要約を表示します。
 .TP 10
 \fB-i\fR
 索引リストファイルが指定されている場合でも、標準入力を索引リストとして使用します。
@@ -373,8 +376,6 @@ lethead_flag または heading_flag が負数の場合に数字・記号の頭�
 symbol_flag が0でない場合に、数字・記号の頭文字として出力する文字列。
 .RE
 文字列が定義されていれば、symhead_positive および symhead_negative より優先される。(mendex専用)
-.RE
-このパラメータが定義された場合、symhead_positive および symhead_negative より優先される。(mendex専用)
 .RE
 .TP 30
 \fBsymbol_flag\fR  <数値>
