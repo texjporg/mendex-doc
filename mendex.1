@@ -11,10 +11,10 @@ The program \fImendex\fR is a general purpose hierarchical index generator;
 it accepts one or more input files (\fI.idx\fR; often produced by a text
 formatter such as \*(LX), sorts the entries, and produces an output file
 which can be formatted. It is almost compatible with \fImakeindex\fR, and
-additional feature for handling syllables of kanji words is also available.
+additional feature for handling readings of kanji words is also available.
 .RE
 The formats of the input and output files are specified in a style file.
-The syllables of kanji words can be specified in a dictionary file.
+The readings of kanji words can be specified in a dictionary file.
 .RE
 The index can have up to three levels (0, 1, and 2) of subitem nesting.
 .SH OPTIONS
@@ -57,7 +57,7 @@ Employ \fIsty\fR as the style file.
 .TP 10
 \fB-d\fI dic\fR
 Employ \fIdic\fR as the dictionary file. The dictionary file is
-composed of lists of <\fIindex_word\fR\ \fIsyllables\fR>.
+composed of lists of <\fIindex_word\fR\ \fIreading\fR>.
 .TP 10
 \fB-o\fI ind\fR
 Employ \fIind\fR as the output index file. By default, the file
@@ -455,21 +455,22 @@ Japanese sequence and non-Japanese sequence in sorting procedure.
 "SEJ"
 .RS
 Order of scripts and symbols.
-\'S\', \'E\' and 'J' respectively denotes symbol, English and Japanese.
+\'S\', \'E\' and \'J\' respectively denotes symbol, English and Japanese.
 (Extended by mendex)
 .RE
 .PP
 .SH ABOUT JAPANESE PROCESSING
 .PP
-\fImendex\fR has features to easily treat Japanese indexes.
+\fImendex\fR has an additional feature to simplify the procedure of handling
+Japanese indexes, compared to \fImakeindex\fR. Users can save the effort
+of manually specifying a reading for every kanji word.
 .RE
-Japanese kanji words are usually sorted with order of syllables
-\fI\'Yomi\'\fR represented by kana (Hiragana, Katakana) scripts.
-\fImendex\fR accepts directly specified syllables in kana expression on an input file and
-also accepts conversion from index words to kana scripts with Japanese dictionaries.
+Japanese kanji words are usually sorted by the syllables of their readings
+(\fI\'Yomi\'\fR), which can be represented by kana (Hiragana, Katakana) scripts.
+\fImendex\fR accepts index words specified in kana expression directly on
+an input file, and also accepts conversion from index words to kana scripts
+by referring to Japanese dictionaries.
 .RE
-The feature of Japanese dictionaries will help to reduce burden specifing syllables
-for each kanji word.
 
 .LP
 Examples of internal simplification of syllables are shown below.
@@ -483,9 +484,10 @@ Examples of internal simplification of syllables are shown below.
 ワープロ			わあふろ
 .RE
 .LP
-The dictionary file consists of list with <\'index_word\' \'syllables\'>.
-An index word can be in any scripts. Syllables must be in Hiragana or Katakana scripts.
-The delimiter between the index word and the syllables is one or more tab(s) or space(s).
+The dictionary file consists of list with <\'index_word\' \'reading\'>.
+The index word can be written in any scripts (kanji, kana, etc),
+and the reading must be in Hiragana or Katakana scripts.
+The delimiter between the index word and its reading is one or more tab(s) or space(s).
 .RE
 An example of a Japanese dictionary is shown below.
 .PP
@@ -500,17 +502,16 @@ An example of a Japanese dictionary is shown below.
 α		アルファ
 .RE
 .LP
-Here, one index word must correspond to one Yomi.
-Though one index  (ex. 「表」) is generally possible to correspond to
-plural Yomi\'s (ex. 「ひょう」 and 「おもて」),
-only one Yomi can be registard on the dictionary.
-If two Yomi\'s are to be output, another Yomi should be specified
+Here, each index word is allowed to have only one Yomi.
+Though some kanji words (ex. 「表」) may have more than one Yomi\'s
+(ex. 「ひょう」 and 「おもて」), only one of them can be registered in the dictionary.
+When some different Yomi\'s are needed, they should be specified explicitly
 in kana expression (ex. \\index{ひょう@表} or \\index{おもて@表}) on the input file.
 .RE
 Moreover, a dictionary file is automatically referred
 by setting the file name at an environment variable \fIINDEXDEFAULTDICTIONARY\fR.
 The dictionary set by the environment variable can be used
-togather with file(s) specified by \fI-d\fR option.
+together with file(s) specified by \fI-d\fR option.
 .PP
 .SH ABOUT SORTING PROCEDURE
 .PP
@@ -533,11 +534,11 @@ Xlib				XView
 XView				X Window
 .RE
 .LP
-In addition, two sorting method can be selected for indexes
-with Japanese kana and another scripts (e.g. Latin script).
-Setting \fIpriority\fR 0 (default) and 1 at a style file,
-a space is respectively inserted and not inserted
-between Japanese Kana and another script prior to sorting procedure.
+In addition, two sorting methods can be applied for indexes
+which contains both Japanese kana and other scripts (e.g. Latin script).
+By setting \fIpriority\fR 0 (default) and 1 at a style file,
+a space between Japanese Kana and other scripts is inserted and
+not inserted respectively, prior to the sorting procedure.
 .RE
 Follows show an example.
 .PP
