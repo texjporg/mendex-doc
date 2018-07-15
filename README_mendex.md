@@ -1,5 +1,5 @@
-mendex
-======
+mendex  --- Index processor
+===========================
 
 The program `mendex` is a general purpose hierarchical index generator.
 It is almost compatible with `makeindex`, and additional features
@@ -14,12 +14,15 @@ See manual [mendex.1](./mendex.1) in roff format.
 
 `mendex` is originally developed by ASCII Corporation and
 ASCII Media Works, Inc.
-(see [README_asciimw](./README_asciimw) and [ChangeLog.ja](./ChangeLog.ja),
-in Japanese)
+(see [README_asciimw](./README_asciimw) in Japanese)
 
 The source codes are currently maintained in TeX Live and GitHub repositories.
-Some features are added by Japanese TeX Development Community.
-(see [ChangeLog](./ChangeLog))
+Following features are added by Japanese TeX Development Community:
+
+* option `-U`: Set input/output character encoding to UTF-8.
+* option `-I enc`: Set internal character encoding to `enc`.
+* option `--help`: Show summary of options.
+* option `--`: Arguments after `--` are not taken as options.
 
 ## Repositories
 
