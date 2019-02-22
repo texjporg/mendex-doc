@@ -12,6 +12,7 @@
 \usepackage{enumitem}
 \usepackage{shortvrb}
 \usepackage{newverbs}
+\usepackage[dvipdfmx,colorlinks=false]{hyperref}
 
 % リスト設定
 \setlist[description]{font=\normalfont, style=nextline}
@@ -47,6 +48,9 @@
 作成することができます．
 \end{abstract}
 
+\tableofcontents
+\clearpage
+
 \section{使用法}
 
 はじめに\SoftName{mendex}の使用法を示します．
@@ -65,7 +69,7 @@
 |[|\Meta{idx0} \Meta{idx1} \Meta{idx2} |...]|
 \end{syntax}
 
-\section{オプション}
+\subsection{オプション}
 
 \SoftName{mendex}で利用可能なオプションは以下の通りです．
 
@@ -133,16 +137,17 @@
 \item[|-I| \Meta{enc}]
 内部バッファの文字エンコーディングを\Meta{enc}に指定します．\Meta{enc}には |euc|（EUC-JP）
 または |utf8|（UTF-8）が指定可能です．このオプションが指定されていない場合のデフォルト
-値は |utf8| です．
+値は |utf8| です\footnote{v2.6fまでは「デフォルト値が |euc| で，オプション |-U| が
+明示的に指定されている場合は |utf8| となる」という仕様でしたが，v3.0で変更しました．}．
 
 \item[|--help|]
-オプションの要約を表示します。
+オプションの要約を表示します．
 
 \item[|--|]
 以降はオプション文字列と解釈しません．
 \end{description}
 
-\section{スタイルファイル}
+\subsection{スタイルファイル}
 
 スタイルファイルは\SoftName{makeindex}のものと上位互換です．
 形式は ``\jMeta{スタイルパラメータ} \jMeta{引数}'' のリストで構成されます．
@@ -150,7 +155,7 @@
 
 以下にスタイルパラメータとそのデフォルト値の一覧を示します．
 
-\paragraph{入力ファイルスタイルパラメタ}
+\paragraph{入力ファイルスタイルパラメータ}
 
 \begin{description}[leftmargin=3.5cm]
 \item[|keyword|] \ParamString*|\\indexentry|
@@ -191,7 +196,7 @@
 一般的な文字に対するエスケープキャラクタ．
 \end{description}
 
-\paragraph{出力ファイルスタイルパラメタ}
+\paragraph{出力ファイルスタイルパラメータ}
 
 \begin{description}[leftmargin=3.5cm]
 \item[|preamble|] \ParamString*|\\begin{theindex}\n|
@@ -324,10 +329,36 @@
 （\SoftName{mendex}専用）．
 \end{description}
 
+\subsection{参考：\SoftName{makeindex}との比較}
+\SoftName{mendex}は基本的に\SoftName{makeindex}と互換ですが，以下の点で異なります．
+
+\begin{itemize}
+\item \SoftName{makeindex}には索引項目の分類として「記号」，「アルファベット」の
+  他に，数字のみの項目として「数字」という分類がありますが，
+  \SoftName{mendex}では数字は「記号」に含まれます．
+  また，\SoftName{makeindex}に存在するスタイルパラメータのうち，
+  |numhead_positive|と|numhead_negative|は認識されません．
+
+\item 数字・記号→欧文→和文の順にこだわらない索引の作成が可能です
+  （|character_order|パラメータを追加）．他に\SoftName{mendex}で追加された
+  スタイルパラメータには，|symbol|，|symbol_flag|，|letter_head|，|priority|があります．
+
+\item \SoftName{makeindex}の項目の並び順は，頭文字は
+  「記号」「数字」「アルファベット」に分けて並べられますが，2文字目以降は単純に
+  ASCIIコード順となり，記号よりアルファベットが先になる場合もあります．
+  \SoftName{mendex}の英数字の並びは，2文字目以降も
+  「記号」「数字」「アルファベット」の分類が考慮されます．
+
+\item \SoftName{makeindex}には |-g| オプションでドイツ語辞書順
+  （記号→アルファベット小文字→アルファベット大文字→数字）で並べるようにできますが，
+  \SoftName{mendex}ではサポートしていません．代わりに，|-g| オプションは
+  日本語の頭文字の区切りを切り換えるオプションになっています．
+\end{itemize}
+
 \section{日本語の扱いについて}
 
 \SoftName{mendex}は日本語の索引をできるだけ楽に扱えるようになっています．
-\SoftName{makeindex}では日本語の索引が正しく辞書順にソートするためにはひらがなまたは
+\SoftName{makeindex}では日本語の索引が正しく辞書順にソートするためには，ひらがなまたは
 カタカナに揃え，拗音，撥音，濁点を除いた読みを付けなければなりませんでした
 （自動的に揃えるバージョンもある）． \SoftName{mendex}ではカナについてはすべて自動的に
 揃え，また漢字については辞書ファイルを設定することにより各索引語ごとに読みを付ける作業を
@@ -405,11 +436,17 @@ indファイル & index sort
 常に参照する辞書ファイル．
 \end{description}
 
-\section{詳細について}
-その他，仕様の詳細については\SoftName{makeindex}に準拠します．
-
 \section{既知の問題}
 複数のページ記法を使用する場合，ページ順に索引リストファイル（\FileExtension{idx}）を
 与えないとページ番号を誤認することがあります．
+
+% また，\SoftName{makeindex}に比べると実行速度が遅くなっています．
+
+\section{バグ報告先・開発元}
+現在，\SoftName{mendex}は日本語\TeX 開発コミュニティによりメンテナンスされています．
+\begin{itemize}
+  \item \url{https://github.com/texjporg/tex-jp-build} （本体のソースコード）
+  \item \url{https://github.com/texjporg/mendex-doc} （この文書を含むドキュメント類）
+\end{itemize}
 
 \end{document}
