@@ -2,8 +2,14 @@ DOCTARGET = mendex
 PDFTARGET = $(addsuffix .pdf,$(DOCTARGET))
 DVITARGET = $(addsuffix .dvi,$(DOCTARGET))
 KANJI = -kanji=utf8
-FONTMAP = -f ipaex.map -f ptex-ipaex.map
+#FONTMAP = -f ipaex.map -f ptex-ipaex.map
+FONTMAP = -f haranoaji.map -f ptex-haranoaji.map -f otf-haranoaji.map
 TEXMF = $(shell kpsewhich -var-value=TEXMFHOME)
+ifdef PLATEX
+	PLATEX=${foo}
+else
+	PLATEX=platex
+endif
 
 default: $(DVITARGET)
 all: $(PDFTARGET)
@@ -13,7 +19,7 @@ all: $(PDFTARGET)
 	platex $(KANJI) $<
 	platex $(KANJI) $<
 	platex $(KANJI) $<
-	rm -f *.aux *.log *.toc
+	rm -f *.aux *.log *.toc *out
 .dvi.pdf:
 	dvipdfmx $(FONTMAP) $<
 
