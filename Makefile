@@ -5,23 +5,20 @@ KANJI = -kanji=utf8
 #FONTMAP = -f ipaex.map -f ptex-ipaex.map
 FONTMAP = -f haranoaji.map -f ptex-haranoaji.map -f otf-haranoaji.map
 TEXMF = $(shell kpsewhich -var-value=TEXMFHOME)
-ifdef PLATEX
-	PLATEX=${foo}
-else
-	PLATEX=platex
-endif
+LTX = platex $(KANJI)
+DPX = dvipdfmx $(FONTMAP)
 
 default: $(DVITARGET)
 all: $(PDFTARGET)
 
 .SUFFIXES: .tex .dvi .pdf
 .tex.dvi:
-	platex $(KANJI) $<
-	platex $(KANJI) $<
-	platex $(KANJI) $<
+	$(LTX) $<
+	$(LTX) $<
+	$(LTX) $<
 	rm -f *.aux *.log *.toc *out
 .dvi.pdf:
-	dvipdfmx $(FONTMAP) $<
+	$(DPX) $<
 
 .PHONY: install clean
 install:
