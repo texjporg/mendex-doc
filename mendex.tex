@@ -330,9 +330,15 @@
 英字と日本語との混在した索引語のソート方法についてのフラグ．|0|でなければ英字と日本語との
 間に半角スペースを入れた状態でソートする（\SoftName{mendex}専用）．
 
-\item[|character\string_order|] \ParamString*|SEJ|
-記号，英字，日本語の優先順位．`|S|' は記号，`|E|' は英字，`|J|' は日本語を表す
+\item[|character\string_order|] \ParamString*|SNEJ|
+記号，英字，日本語の優先順位．`|S|' は記号，`|N|' は記号，`|E|' は英字，`|J|' は日本語を表す
 （\SoftName{mendex}専用）．
+\SoftName{mendex}では，後述のとおり，索引項目の分類として「数字」は「記号」に含める
+仕様としていますので，`|S|' と `|N|' は必ず隣り合わせてください（数字と数字以外の記号の
+順序入れ替えは可能です）．
+% もともと "SEJ" とドキュメントされていたが，実装に合わせて "SNEJ" と規定する．
+% 以下の議論も参考に．
+% https://github.com/texjporg/mendex-doc/issues/10
 \end{description}
 
 \subsection{参考：\SoftName{makeindex}との比較}

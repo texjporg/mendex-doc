@@ -459,11 +459,13 @@ Japanese sequence and non-Japanese sequence in sorting procedure.
 .RE
 .TP 30
 \fBcharacter_order\fR  <string>
-"SEJ"
+"SNEJ"
 .RS
 Order of scripts and symbols.
-\'S\', \'E\' and \'J\' respectively denotes symbol, English and Japanese.
+\'S\', \'N\', \'E\' and \'J\' respectively denotes symbol, numbers, English and Japanese.
 (Extended by mendex)
+Please make sure that \'S\' and \'N\' are next to each other,
+since \fBmendex\fR considers numbers as part of symbol.
 .RE
 .PP
 .SH ABOUT JAPANESE PROCESSING
