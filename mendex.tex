@@ -346,7 +346,7 @@
 間に半角スペースを入れた状態でソートする（\SoftName{mendex}専用）．
 
 \item[|character\string_order|] \ParamString*|SNEJ|
-記号，英字，日本語の優先順位．`|S|' は記号，`|N|' は記号，`|E|' は英字，`|J|' は日本語を表す
+記号，英字，日本語の優先順位．`|S|' は記号，`|N|' は数字，`|E|' は英字，`|J|' は日本語を表す
 （\SoftName{mendex}専用）．
 \SoftName{mendex}では，後述のとおり，索引項目の分類として「数字」は「記号」に含める
 仕様としていますので，`|S|' と `|N|' は必ず隣り合わせてください（数字と数字以外の記号の
@@ -370,7 +370,7 @@
   （|character_order|パラメータを追加）．他に\SoftName{mendex}で追加された
   スタイルパラメータには，|symbol|，|symbol_flag|，|letter_head|，|priority|があります．
 
-\item \SoftName{makeindex}の |headings_flag| は，\SoftName{mendex} では
+\item \SoftName{makeindex}の |headings_flag| は，\SoftName{mendex}では
   |heading_flag| となっており，互いに互換性がありません．
   また，|lethead_flag|，|lethead_prefix|，|lethead_suffix|は，かつて\SoftName{makeindex}の
   文書で言及されていましたが，現在は削除され\SoftName{mendex}専用となっています．
