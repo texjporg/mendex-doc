@@ -90,7 +90,7 @@ mendex \- 索引整形ツール
 \fBkeyword\fR  <文字列>
 "\\\\indexentry"
 .RS
-索引エントリを引数として持つコマンド。
+処理対象とする索引エントリを引数として持つコマンド。
 .RE
 .TP 30
 \fBarg_open\fR  <文字>

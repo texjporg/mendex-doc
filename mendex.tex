@@ -25,9 +25,11 @@
 \newverbcommand{\ParamNum}{\jMeta{数値}\quad 規定値：}{\xpar}
 \newverbcommand{\ParamChar}{\jMeta{文字}\quad 規定値：`}{'\xpar}
 \newverbcommand{\ParamString}{\jMeta{文字列}\quad 規定値：``}{''\xpar}
+\xspcode`\\=3
 
 % 文書マクロ
 \newcommand{\SoftName}[1]{\textsf{#1}}
+\newcommand{\FileName}[1]{\texttt{#1}}
 \newcommand{\FileExtension}[1]{\texttt{.#1}}
 \newcommand{\Meta}[1]{$\langle$\mbox{}\textit{#1}\mbox{}$\rangle$}
 \newcommand{\jMeta}[1]{$\langle$\mbox{}\textsf{#1}\mbox{}$\rangle$}
@@ -149,7 +151,7 @@
 これは，ファイル名の先頭の文字が|-|であるファイルを扱う場合に有用です．
 \end{description}
 
-以上のうち，オプション|-U|, |-I|, |--help|, |--|はオリジナルのアスキー版にはなかった機能で，
+以上のうち，オプション |-U|, |-I|, |--help|, |--| はオリジナルのアスキー版にはなかった機能で，
 日本語\TeX 開発コミュニティによって追加されました．
 
 \subsection{スタイルファイル}
@@ -164,7 +166,10 @@
 
 \begin{description}[leftmargin=3.5cm]
 \item[|keyword|] \ParamString*|\\indexentry|
-索引エントリを引数として持つコマンド．
+処理対象とする索引エントリを引数として持つコマンド．\\
+入力ファイル（\FileExtension{idx}）に現れるエントリのうち，\SoftName{mendex}は
+|keyword| で指定された以外の項目を無視します．
+% 例：用語集用の gglo.ist は |\\glossaryentry| に変更し，|\indexentry| を無視
 
 \item[|arg\string_open|] \ParamChar|{|
 索引エントリ文字列開始を表す文字．
@@ -182,7 +187,11 @@
 従属レベルであることを示す文字．
 
 \item[|actual|] \ParamChar|@|
-このシンボルに続く文字列が実際の索引文字列として出力ファイルに書かれる．
+このシンボルに続く文字列が実際の索引文字列として出力ファイルに書かれる．\\
+\SoftName{makeindex}で日本語の索引を作成しようとすると，全ての項目について
+|\index{かんじ@漢字}| のように |actual| のシンボルの前に「読み」を，
+後ろに実際に表示する索引文字列を書く必要がありました．
+\SoftName{mendex}では，辞書ファイルを用いることで，その手間を最小限にできます．
 
 \item[|encap|] \ParamChar+|+ \par
 このシンボルに続く文字列が，ページ番号に付くコマンド名として使われる．
@@ -455,6 +464,36 @@ indファイル & index sort
 与えないとページ番号を誤認することがあります．
 
 % また，\SoftName{makeindex}に比べると実行速度が遅くなっています．
+
+\section{トラブルシューティング}
+\SoftName{mendex}でも，\SoftName{makeindex}用のスタイルファイルを流用することができる
+場合があります．ただし，期待通りに動作しない場合もあるため，注意点を挙げておきます．
+% 2021年6月現在，\TeX\ Liveの |texmf-dist/makeindex| 以下に収録されているものは
+% ほとんど使いづらい．
+
+\subsection{\FileName{gind.ist}や\FileName{gglo.ist}が使えない}
+\LaTeXe 付属の\FileName{gind.ist}や\FileName{gglo.ist}は，\SoftName{doc}パッケージと
+併用することを想定して作られています．
+\begin{verbatim}
+    ! Undefined control sequence.
+    l.3  \makeatletter\scan@allowedfalse
+\end{verbatim}
+のエラーを避けるために，\verb+\usepackage{doc}+ を追加してください．
+
+\subsection{漢字の読みを与えたつもりなのにエラーが出る}
+辞書ファイルを使用しない，あるいは辞書ファイルと異なる読みを個別指定する場合に
+|\index{かんじ@漢字}| の書式で「読み」を指定したにもかかわらず，
+\begin{verbatim}
+  Error: 漢字 is no entry in dictionary file in mybook.idx, line 1.
+  0 entries accepted, 1 rejected.
+\end{verbatim}
+のようなエラーが出て，索引が作成されないことがあります．ここでオプション |-f| を使用しても，
+実際に出力される索引文字列が |かんじ@漢字| となってしまいます．
+
+この原因の多くは，スタイルファイルが |actual| を |@| から他の文字に変更している場合です．
+例えば\FileName{gind.ist}や\FileName{gglo.ist}，その派生スタイルファイルは
+|actual| を |=| に変更していますので，それらを使用する場合は |\index{かんじ=漢字}| の書式を
+用いるのが正しい「読み」の指定法です．
 
 \section{バグ報告先・開発元}
 現在，\SoftName{mendex}は日本語\TeX 開発コミュニティによりメンテナンスされています．
