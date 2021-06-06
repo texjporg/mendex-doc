@@ -230,22 +230,29 @@
 
 \item[|lethead\string_prefix|] \ParamString*||
 頭文字の前に付けるコマンド文字列．
+\SoftName{makeindex}はこのパラメータを認識しません．
 
 \item[|heading\string_prefix|] \ParamString*||
-|lethead_prefix| と同じ．
+|lethead_prefix| と同じ．（\SoftName{makeindex}互換）
 
 \item[|lethead\string_suffix|] \ParamString*||
 頭文字の後に付けるコマンド文字列．
+\SoftName{makeindex}はこのパラメータを認識しません．
 
 \item[|heading\string_suffix|] \ParamString*||
-|lethead_suffix| と同じ．
+|lethead_suffix| と同じ．（\SoftName{makeindex}互換）
 
 \item[|lethead\string_flag|] \ParamNum|0|
 頭文字の出力のフラグ．|0| のとき出力しない．|0|より大きいときは英字を大文字で，
 |0|より小さいときは小文字で出力する．
+\SoftName{makeindex}はこのパラメータを認識しません．
+% 2014年以前の ind.pdf には言及されていたが，少なくとも1993年以降の makeindex の
+% ソースコードを見ると |lethead_flag| を認識しなかった．
+% |lethead_prefix| と |lethead_suffix| も同様．
 
 \item[|heading\string_flag|] \ParamNum|0|
-|lethead_flag| と同じ．
+|lethead_flag| と同じ．\\
+\SoftName{makeindex}では |headings_flag| という名称のため，互換性がありません．
 
 \item[|item\string_0|] \ParamString*|\n  \\item |
 主エントリ間に挿入するコマンド．
@@ -362,6 +369,11 @@
 \item 数字・記号→欧文→和文の順にこだわらない索引の作成が可能です
   （|character_order|パラメータを追加）．他に\SoftName{mendex}で追加された
   スタイルパラメータには，|symbol|，|symbol_flag|，|letter_head|，|priority|があります．
+
+\item \SoftName{makeindex}の |headings_flag| は，\SoftName{mendex} では
+  |heading_flag| となっており，互いに互換性がありません．
+  また，|lethead_flag|，|lethead_prefix|，|lethead_suffix|は，かつて\SoftName{makeindex}の
+  文書で言及されていましたが，現在は削除され\SoftName{mendex}専用となっています．
 
 \item \SoftName{makeindex}の項目の並び順は，頭文字は
   「記号」「数字」「アルファベット」に分けて並べられますが，2文字目以降は単純に

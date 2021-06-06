@@ -200,7 +200,7 @@ mendexのパラメータ文字に対するエスケープキャラクタ。
 \fBheading_prefix\fR  <文字列>
 ""
 .RS
-lethead_prefixと同じ。
+lethead_prefixと同じ。(makeindex互換)
 .RE
 .TP 30
 \fBlethead_suffix\fR  <文字列>
@@ -212,7 +212,7 @@ lethead_prefixと同じ。
 \fBheading_suffix\fR  <文字列>
 ""
 .RS
-lethead_suffixと同じ。
+lethead_suffixと同じ。(makeindex互換)
 .RE
 .TP 30
 \fBlethead_flag\fR  <数値>
@@ -224,7 +224,7 @@ lethead_suffixと同じ。
 \fBheading_flag\fR  <数値>
 0
 .RS
-lethead_flagと同じ。
+lethead_flagと同じ。makeindexではheadings_flagという名称のため、互換性がありません。
 .RE
 .TP 30
 \fBitem_0\fR  <文字列>
