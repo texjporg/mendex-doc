@@ -7,6 +7,7 @@ FONTMAP = -f haranoaji.map -f ptex-haranoaji.map -f otf-haranoaji.map
 TEXMF = $(shell kpsewhich -var-value=TEXMFHOME)
 LTX = platex $(KANJI)
 DPX = dvipdfmx $(FONTMAP)
+MDX = mendex -U
 
 default: $(DVITARGET)
 all: $(PDFTARGET)
@@ -14,9 +15,15 @@ all: $(PDFTARGET)
 .SUFFIXES: .tex .dvi .pdf
 .tex.dvi:
 	$(LTX) $<
+	$(MDX) mendex-sub
+	mv mendex-sub.ind mendex-sub-0.ind
+	$(MDX) -s jpbase mendex-sub
+	mv mendex-sub.ind mendex-sub-1.ind
+	$(MDX) -g -s jpbase mendex-sub
+	mv mendex-sub.ind mendex-sub-2.ind
 	$(LTX) $<
 	$(LTX) $<
-	rm -f *.aux *.log *.toc *out
+	rm -f *.aux *.log *.toc *out *.idx *.ind *.ilg *-sub-*.ist
 .dvi.pdf:
 	$(DPX) $<
 

@@ -514,4 +514,165 @@ indファイル & index sort
   \item \url{https://github.com/texjporg/mendex-doc} （この文書を含むドキュメント類）
 \end{itemize}
 
+\clearpage
+\appendix
+
+\section{索引スタイルの例 (\FileName{jpbase.ist})}
+この文書と一緒に配布している索引スタイル\FileName{jpbase.ist}について説明します．
+
+主な内容は以下の通りです（全体は実際のファイル参照）．
+\begin{quote}
+\hrule\vskip10pt\noautospacing\noautoxspacing
+\begin{verbatim}
+%% Use general commands (M. Yamamoto, @munepi)
+headings_flag    1
+heading_prefix   "\n\\makeidxhead{"
+heading_suffix   "}"
+delim_0          "\\idxdelim "
+delim_1          "\\idxdelim "
+delim_2          "\\idxdelim "
+symhead_positive "\\symbolindexname"
+%
+heading_flag     1
+symbol           "\\symbolindexname"
+%
+%% Custom settings for mendex
+% 見出しをひらがなで出力: 2（既定値はカタカナ: 1）
+letter_head      2
+% 並べ替え順を日本語→英字→記号／数字に変更
+character_order  "JESN"
+%
+%% Output design based on dot.ist by Y. Kumazawa
+preamble   "\\begin{theindex}\n
+\\providecommand\\idxdelim{\\space\\dotfill\\space}
+\\providecommand\\makeidxhead[1]{...(略)... #1 ...(略)...}
+\\providecommand\\symbolindexname{記号／数字}\n"
+postamble  "\n\n\\end{theindex}\n"
+\end{verbatim}
+\vskip10pt\hrule
+\end{quote}
+
+このスタイルでは
+\begin{itemize}
+ \item 見出しの飾り → |\makeidxhead|
+ \item 索引項目とページ番号の区切り → |\idxdelim|
+ \item 記号・数字類の見出し文字列 → |\symbolindexname|
+\end{itemize}
+という\LaTeX 命令に切り出すことで，ユーザが\LaTeX の範囲内で自由にデザインを定義できる
+ようにしています．デフォルトの定義も |preamble| パラメータで与えますので，
+これらの命令を定義せずに\FileName{jpbase.ist}単体でも動作します．
+
+次のページから，索引スタイルの適用例を示します．
+\begin{itemize}
+ \item |mendex sample|（デフォルト通り）
+ \item |mendex -s jpbase sample|（スタイル適用）
+ \item |mendex -s jpbase -g sample|（さらに頭文字の区切りを「あかさ…わ」に）
+\end{itemize}
+なお，サンプルとして使用した\FileName{sample.idx}は以下の通りです（一部のみ）．
+\begin{quote}
+\hrule\vskip10pt\noautospacing\noautoxspacing
+\begin{verbatim}
+% sample.idx
+\indexentry{DVI}{18}
+\indexentry{コンパイル}{18}
+...(略)...
+\indexentry{alignかんきょう@align環境}{183}
+\indexentry{alignatかんきょう@alignat環境}{184}
+...(略)...
+\indexentry{キャプション}{288}
+\indexentry{フロート}{288}
+\indexentry{graphicsパッケージ}{300}
+\indexentry{graphicxパッケージ}{300}
+\end{verbatim}
+\vskip10pt\hrule
+\end{quote}
+
+\def\indexname{索引（\texttt{mendex}デフォルト）}
+\InputIfFileExists{\jobname-sub-0.ind}{}{\typeout{Rerun!}}
+\def\indexname{索引（\texttt{mendex -s jpbase}）}
+\InputIfFileExists{\jobname-sub-1.ind}{}{\typeout{Rerun!}}
+\def\indexname{索引（\texttt{mendex -s jpbase -g}）}
+\InputIfFileExists{\jobname-sub-2.ind}{}{\typeout{Rerun!}}
+
+%%% 以下，補助ファイル
+\begin{filecontents*}[overwrite]{\jobname-sub.idx}
+\indexentry{DVI}{18}
+\indexentry{コンパイル}{18}
+\indexentry{ログファイル}{18}
+\indexentry{dvips}{22}
+\indexentry{ごうじ@合字}{34}
+\indexentry{$>$}{35}
+\indexentry{$<$}{35}
+\indexentry{プリアンブル}{44}
+\indexentry{クラスファイル}{45}
+\indexentry{パッケージファイル}{45}
+\indexentry{NFSS}{52}
+\indexentry{エンコード}{52}
+\indexentry{シリーズ}{52}
+\indexentry{ファミリ}{52}
+\indexentry{サイズ}{53}
+\indexentry{シェイプ}{53}
+\indexentry{エンコード}{63}
+\indexentry{ファミリ}{64}
+\indexentry{シリーズ}{66}
+\indexentry{シェイプ}{67}
+\indexentry{サイズ}{68}
+\indexentry{しょたいていぎファイル@書体定義ファイル}{75}
+\indexentry{abstractかんきょう@abstract環境}{87}
+\indexentry{itemizeかんきょう@itemize環境}{92}
+\indexentry{enumerateかんきょう@enumerate環境}{93}
+\indexentry{descriptionかんきょう@description環境}{94}
+\indexentry{quotationかんきょう@quotation環境}{97}
+\indexentry{quoteかんきょう@quote環境}{97}
+\indexentry{verbatimかんきょう@verbatim環境}{99}
+\indexentry{プリミティブ}{113}
+\indexentry{カウンタ}{131}
+\indexentry{ボックス}{134}
+\indexentry{minipageかんきょう@minipage環境}{137}
+\indexentry{$>$}{146}
+\indexentry{$<$}{146}
+\indexentry{ディスプレイすうしき@ディスプレイ数式}{152}
+\indexentry{テキストすうしき@テキスト数式}{152}
+\indexentry{equationかんきょう@equation環境}{153}
+\indexentry{アクセントきごう@アクセント記号}{156}
+\indexentry{えんざんし@演算子}{158}
+\indexentry{かんけいえんざんし@関係演算子}{159}
+\indexentry{ギリシャもじ@ギリシャ文字}{161}
+\indexentry{かんけいえんざんし@関係演算子}{162}
+\indexentry{にこうえんざんし@二項演算子}{163}
+\indexentry{ぶんすう@分数}{167}
+\indexentry{かせん@下線}{168}
+\indexentry{へいほうこん@平方根}{168}
+\indexentry{ぎょうれつ@行列}{169}
+\indexentry{equationかんきょう@equation環境}{172}
+\indexentry{eqnarrayかんきょう@eqnarray環境}{173}
+\indexentry{casesかんきょう@cases環境}{182}
+\indexentry{alignかんきょう@align環境}{183}
+\indexentry{alignatかんきょう@alignat環境}{184}
+\indexentry{gatherかんきょう@gather環境}{185}
+\indexentry{multilineかんきょう@multiline環境}{185}
+\indexentry{tabbingかんきょう@tabbing環境}{190}
+\indexentry{tabbingかんきょう@tabbing環境}{194}
+\indexentry{arrayかんきょう@array環境}{203}
+\indexentry{tabularかんきょう@tabular環境}{203}
+\indexentry{フロートオブジェクト}{210}
+\indexentry{pictureかんきょう@picture環境}{220}
+\indexentry{ascmacパッケージ}{234}
+\indexentry{そうごさんしょう@相互参照}{244}
+\indexentry{plextパッケージ}{266}
+\indexentry{plextパッケージ}{279}
+\indexentry{れんすうじ@連数字}{279}
+\indexentry{かんすうじ@漢数字}{280}
+\indexentry{enumerateかんきょう@enumerate環境}{281}
+\indexentry{ぼうてん@傍点}{282}
+\indexentry{minipageかんきょう@minipage環境}{285}
+\indexentry{tabularかんきょう@tabular環境}{286}
+\indexentry{pictureかんきょう@picture環境}{287}
+\indexentry{キャプション}{288}
+\indexentry{フロート}{288}
+\indexentry{graphicsパッケージ}{300}
+\indexentry{graphicxパッケージ}{300}
+\end{filecontents*}
+%%% 以上，補助ファイル
+
 \end{document}

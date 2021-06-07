@@ -1,0 +1,37 @@
+% jpbook.ist - general settings, part of mendex package.
+% also works with makeindex.
+% これは mendex スタイルファイルのサンプルです
+
+%% Use general commands (M. Yamamoto, @munepi)
+headings_flag    1
+heading_prefix   "\n\\makeidxhead{"
+heading_suffix   "}"
+%
+delim_0          "\\idxdelim "
+delim_1          "\\idxdelim "
+delim_2          "\\idxdelim "
+%
+symhead_positive "\\symbolindexname"
+%
+% for mendex
+%  * heading_flag <=> headings_flag difference (limitation)
+%  * symhead_positive unrecognized if character_order is changed
+%    (bug: https://github.com/texjporg/tex-jp-build/issues/117)
+heading_flag     1
+symbol           "\\symbolindexname"
+
+%% Custom settings for mendex
+% 見出しをひらがなで出力: 2（既定値はカタカナ: 1）
+letter_head      2
+% 並べ替え順を日本語→英字→記号／数字に変更
+character_order  "JESN"
+
+%% Output design based on dot.ist by Y. Kumazawa
+%%  - sample definitions are provided below.
+%%  - you can customize the design by redefining
+%%    \idxdelim, \makeidxhead and \symbolindexname in your LaTeX file.
+preamble   "\\begin{theindex}\n
+\\providecommand\\idxdelim{\\space\\dotfill\\space}
+\\providecommand\\makeidxhead[1]{{\\vbox{\\hbox to \\linewidth{\\sffamily\\bfseries #1\\ \\hskip\\fill}\\vskip1pt\\hrule}}\\nopagebreak}
+\\providecommand\\symbolindexname{記号／数字}\n"
+postamble  "\n\n\\end{theindex}\n"
