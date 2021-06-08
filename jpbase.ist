@@ -23,8 +23,10 @@ symbol           "\\symbolindexname"
 %% Custom settings for mendex
 % 見出しをひらがなで出力: 2（既定値はカタカナ: 1）
 letter_head      2
-% 並べ替え順を日本語→英字→記号／数字に変更
-character_order  "JESN"
+% 並べ替え順を日本語→英字→記号／数字に変更するなら以下を有効に
+%character_order  "JESN"
+% 日本語と英字の間に半角スペースを入れてソートするなら以下を有効に
+%priority         1
 
 %% Output design based on dot.ist by Y. Kumazawa
 %%  - sample definitions are provided below.
