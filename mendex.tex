@@ -5,14 +5,14 @@
   \epTeXinputencoding utf8
 \fi
 
-\documentclass[a4paper]{jsarticle}
+\documentclass[a4paper,dvipdfmx]{jsarticle}
 
 % 依存パッケージ
 \usepackage{otf}
 \usepackage{enumitem}
 \usepackage{shortvrb}
 \usepackage{newverbs}
-\usepackage[dvipdfmx,colorlinks=false]{hyperref}
+\usepackage[colorlinks=false]{hyperref}
 \usepackage{pxjahyper}
 
 % リスト設定
@@ -153,6 +153,9 @@
 
 以上のうち，オプション |-U|, |-I|, |--help|, |--| はオリジナルのアスキー版にはなかった機能で，
 日本語\TeX 開発コミュニティによって追加されました．
+また，\SoftName{mendex} |version 3.5 [6-Jun-2021]|以降では，|-s| オプションによる
+スタイルファイルを複数指定することができます．
+同じパラメータが複数回指定された場合は，後から指定された方が有効になります．
 
 \subsection{スタイルファイル}
 
