@@ -21,6 +21,8 @@ all: $(PDFTARGET)
 	mv mendex-sub.ind mendex-sub-1.ind
 	$(MDX) -g -s jpbase mendex-sub
 	mv mendex-sub.ind mendex-sub-2.ind
+	$(MDX) -g -s jpbase -s mendex-sub-3 mendex-sub
+	mv mendex-sub.ind mendex-sub-3.ind
 	$(LTX) $<
 	$(LTX) $<
 	rm -f *.aux *.log *.toc *out *.idx *.ind *.ilg *-sub-*.ist
