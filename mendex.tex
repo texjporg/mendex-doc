@@ -22,9 +22,9 @@
 % インラインコード用設定
 \let\xpar\par
 \MakeShortVerb{\|}
-\newverbcommand{\ParamNum}{\jMeta{数値}\quad 規定値：}{\xpar}
-\newverbcommand{\ParamChar}{\jMeta{文字}\quad 規定値：`}{'\xpar}
-\newverbcommand{\ParamString}{\jMeta{文字列}\quad 規定値：``}{''\xpar}
+\newverbcommand{\ParamNum}{\jMeta{整数}\quad 規定値：}{\xpar}
+\newverbcommand{\ParamChar}{\jMeta{文字}\quad 規定値：'}{'\xpar}
+\newverbcommand{\ParamString}{\jMeta{文字列}\quad 規定値："}{"\xpar}
 \xspcode`\\=3
 
 % 文書マクロ
@@ -161,6 +161,13 @@
 パラメータの記述順序は自由です．また `|%|' 以降はコメントと見なされます．
 
 以下にスタイルパラメータとそのデフォルト値の一覧を示します．
+\begin{itemize}
+ \item 文字列型は |'a'| のように単引用符で囲みます．
+ \item 文字型は |"abc"| のように二重引用符で囲みます．
+ \item 整数型は単に「1」のように10進数表記で記述します．
+\end{itemize}
+基本的には1行に1項目を記述しますが，文字列型はその値の直前や値の途中で
+改行しても構いません．
 
 \paragraph{入力ファイルスタイルパラメータ}
 
@@ -349,8 +356,9 @@
 記号，英字，日本語の優先順位．`|S|' は記号，`|N|' は数字，`|E|' は英字，`|J|' は日本語を表す
 （\SoftName{mendex}専用）．
 \SoftName{mendex}では，後述のとおり，索引項目の分類として「数字」は「記号」に含める
-仕様としていますので，`|S|' と `|N|' は必ず隣り合わせてください（数字と数字以外の記号の
-順序入れ替えは可能です）．
+仕様としています\footnote{\SoftName{makeindex}では，記号類と数字を別のブロックに
+（|group\_skip|を挿入）しますが，\SoftName{makeindex}では同一のブロックにします．}ので，
+`|S|' と `|N|' は必ず隣り合わせてください（数字と数字以外の記号の順序入れ替えは可能です）．
 % もともと "SEJ" とドキュメントされていたが，実装に合わせて "SNEJ" と規定する．
 % 以下の議論も参考に．
 % https://github.com/texjporg/mendex-doc/issues/10
@@ -443,7 +451,7 @@ XView & X Window
 
 また，日本語−英字間でも似たようなソート方法があります．
 スタイルファイルで |priority| を|0|以外に指定した場合，隣接した日本語と英字の間に
-スペースを入れてソートします．以下に例を示します．
+半角スペースを入れてソートします．以下に例を示します．
 %
 \begin{quote}
 \begin{tabular}{ll}
@@ -452,6 +460,13 @@ index sort & indファイル \\
 indファイル & index sort
 \end{tabular}
 \end{quote}
+
+なお，|character_order| に関係する文字種の判別においては，
+半角スペースも「記号」として扱われます．
+この仕様により，|priority| の値はデフォルト|0|のままで，
+|character_order| を |"JESN"| とした場合にも
+日本語−英字間のソート順序は |priority| を|1|にした時と同様になります．
+% 吉永徹美 著『LaTeX2e 辞典 増補改訂版』翔泳社，2018，p.516
 
 \section{環境変数について}
 
