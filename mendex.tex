@@ -361,7 +361,7 @@
 （\SoftName{mendex}専用）．
 \SoftName{mendex}では，後述のとおり，索引項目の分類として「数字」は「記号」に含める
 仕様としています\footnote{\SoftName{makeindex}では，記号類と数字を別のブロックに
-（|group\_skip|を挿入）しますが，\SoftName{makeindex}では同一のブロックにします．}ので，
+（|group\_skip|を挿入）しますが，\SoftName{mendex}では同一のブロックにします．}ので，
 `|S|' と `|N|' は必ず隣り合わせてください（数字と数字以外の記号の順序入れ替えは可能です）．
 % もともと "SEJ" とドキュメントされていたが，実装に合わせて "SNEJ" と規定する．
 % 以下の議論も参考に．
@@ -606,7 +606,7 @@ postamble  "\n\n\\end{theindex}\n"
 \end{verbatim}
 とすれば記号類の見出しが「Symbols」から「記号・数字」に変わります．
 
-次のページから，索引スタイルの適用例を示します．
+以降のページでは，索引スタイルおよびオプションの適用例を示します．
 \begin{itemize}
  \item |mendex sample|（デフォルト通り）
  \item |mendex -s jpbase sample|（スタイル適用）
@@ -626,10 +626,14 @@ postamble  "\n\n\\end{theindex}\n"
 \end{verbatim}
 
 なお，サンプルとして使用した\FileName{sample.idx}は以下の通りです（一部のみ）．
+\clearpage
 \begin{quote}
 \hrule\vskip10pt\noautospacing\noautoxspacing
 \begin{verbatim}
+% sample.idx
 \indexentry{DVI viewer}{18}
+\indexentry{コンパイル}{18}
+\indexentry{ログファイル}{18}
 \indexentry{dvips}{22}
 ...(略)...
 \indexentry{alignかんきょう@align環境}{183}
@@ -666,9 +670,9 @@ postamble  "\n\n\\end{theindex}\n"
 
 %%% 以下，補助ファイル
 \begin{filecontents*}[overwrite]{\jobname-sub.idx}
+\indexentry{DVI viewer}{18}
 \indexentry{コンパイル}{18}
 \indexentry{ログファイル}{18}
-\indexentry{DVI viewer}{18}
 \indexentry{dvips}{22}
 \indexentry{ごうじ@合字}{34}
 \indexentry{$>$}{35}
