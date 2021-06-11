@@ -566,7 +566,7 @@ letter_head      2
 preamble   "\\begin{theindex}\n
 \\providecommand\\idxdelim{\\space\\dotfill\\space}
 \\providecommand\\makeidxhead[1]{...(略)... #1 ...(略)...}
-\\providecommand\\symbolindexname{記号／数字}\n"
+\\providecommand\\symbolindexname{Symbols}\n"
 postamble  "\n\n\\end{theindex}\n"
 \end{verbatim}
 \vskip10pt\hrule
@@ -581,6 +581,38 @@ postamble  "\n\n\\end{theindex}\n"
 という\LaTeX 命令に切り出すことで，ユーザが\LaTeX の範囲内で自由にデザインを定義できる
 ようにしています．デフォルトの定義も |preamble| パラメータで与えますので，
 これらの命令を定義せずに\FileName{jpbase.ist}単体でも動作します．
+既定のデザインは以下のように定義しています．
+\begin{quote}
+\begin{verbatim}
+\providecommand{\idxdelim}{\space\dotfill\space}
+\providecommand{\makeidxhead}[1]{{\vbox{\hbox to \linewidth{%
+  \sffamily\bfseries #1\ \hskip\fill}\vskip1pt\hrule}}\nopagebreak}
+\providecommand{\symbolindexname}{Symbols}
+\end{verbatim}
+\end{quote}
+
+これらの命令をプリアンブルで予め定義しておけば，それが優先されます．例えば
+\begin{quote}
+\begin{verbatim}
+\newcommand{\makeidxhead}[1]{{\vbox{\hbox to \linewidth{%
+  ■\hfill\sffamily\bfseries #1\hfill ■}\vskip1pt\hrule}}\nopagebreak}
+\end{verbatim}
+\end{quote}
+とすれば見出しの表示形式が
+\begingroup
+\newcommand{\makeidxhead}[1]{{\vbox{\hbox to \linewidth{%
+  ■\hfill\sffamily\bfseries #1\hfill ■}\vskip1pt\hrule}}\nopagebreak}
+\begin{minipage}{.3\linewidth}
+\makeidxhead{あ}
+\end{minipage}
+\endgroup
+になりますし，
+\begin{quote}
+\begin{verbatim}
+\newcommand{\symbolindexname}{記号・数字}}
+\end{verbatim}
+\end{quote}
+とすれば記号類の見出しが「Symbols」から「記号・数字」に変わります．
 
 次のページから，索引スタイルの適用例を示します．
 \begin{itemize}

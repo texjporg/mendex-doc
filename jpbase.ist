@@ -35,5 +35,5 @@ letter_head      2
 preamble   "\\begin{theindex}\n
 \\providecommand\\idxdelim{\\space\\dotfill\\space}
 \\providecommand\\makeidxhead[1]{{\\vbox{\\hbox to \\linewidth{\\sffamily\\bfseries #1\\ \\hskip\\fill}\\vskip1pt\\hrule}}\\nopagebreak}
-\\providecommand\\symbolindexname{記号／数字}\n"
+\\providecommand\\symbolindexname{Symbols}\n"
 postamble  "\n\n\\end{theindex}\n"
