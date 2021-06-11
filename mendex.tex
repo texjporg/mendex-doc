@@ -12,7 +12,7 @@
 \usepackage{enumitem}
 \usepackage{shortvrb}
 \usepackage{newverbs}
-\usepackage[colorlinks=false]{hyperref}
+\usepackage[colorlinks]{hyperref}
 \usepackage{pxjahyper}
 
 % リスト設定
@@ -81,7 +81,8 @@
 索引リストファイルが指定されている場合でも，標準入力を索引リストとして使用します．
 
 \item[|-l|]
-索引のソートを文字順で行います．指定されなければ単語順のソートになります
+単語と単語の間のスペースを無視して詰め，索引のソートを文字順で行います．
+指定されなければ単語順のソートになります
 （ソート方法については後述）．
 
 \item[|-q|]
@@ -365,6 +366,10 @@
 % もともと "SEJ" とドキュメントされていたが，実装に合わせて "SNEJ" と規定する．
 % 以下の議論も参考に．
 % https://github.com/texjporg/mendex-doc/issues/10
+
+なお，|character_order| に関係する文字種の判別においては，
+半角スペースも「記号」として扱われますので，注意してください．
+% 吉永徹美 著『LaTeX2e 辞典 増補改訂版』翔泳社，2018，p.516
 \end{description}
 
 \subsection{参考：\SoftName{makeindex}との比較}
@@ -463,13 +468,6 @@ index sort & indファイル \\
 indファイル & index sort
 \end{tabular}
 \end{quote}
-
-なお，|character_order| に関係する文字種の判別においては，
-半角スペースも「記号」として扱われます．
-この仕様により，|priority| の値はデフォルト|0|のままで，
-|character_order| を |"JESN"| とした場合にも
-日本語−英字間のソート順序は |priority| を|1|にした時と同様になります．
-% 吉永徹美 著『LaTeX2e 辞典 増補改訂版』翔泳社，2018，p.516
 
 \section{環境変数について}
 
@@ -615,6 +613,7 @@ postamble  "\n\n\\end{theindex}\n"
  \item |mendex -s jpbase -g sample|（さらに頭文字の区切りを「あかさ…わ」に）
  \item 上記スタイルに |priority 1| を追加（|align環境| と |alignat環境| の順序に注目）
  \item 上記スタイルに |character_order "JESN"| を追加
+ \item |mendex -s jpbase -g -l sample|（空白文字を無視して文字順ソートに）
 \end{itemize}
 索引スタイル\FileName{jpbase.ist}をベースに一部変更したい場合は，ファイルを複製して
 別名に変更してから編集すると良いでしょう．
@@ -630,8 +629,8 @@ postamble  "\n\n\\end{theindex}\n"
 \begin{quote}
 \hrule\vskip10pt\noautospacing\noautoxspacing
 \begin{verbatim}
-\indexentry{DVI}{18}
-\indexentry{コンパイル}{18}
+\indexentry{DVI viewer}{18}
+\indexentry{dvips}{22}
 ...(略)...
 \indexentry{alignかんきょう@align環境}{183}
 \indexentry{alignatかんきょう@alignat環境}{184}
@@ -644,22 +643,32 @@ postamble  "\n\n\\end{theindex}\n"
 \vskip10pt\hrule
 \end{quote}
 
-\def\indexname{索引の例（\texttt{mendex}デフォルト）}
-\InputIfFileExists{\jobname-sub-0.ind}{}{\typeout{Rerun!}}
-\def\indexname{索引の例（\texttt{mendex -s jpbase}）}
-\InputIfFileExists{\jobname-sub-1.ind}{}{\typeout{Rerun!}}
-\def\indexname{索引の例（\texttt{mendex -s jpbase -g}）}
-\InputIfFileExists{\jobname-sub-2.ind}{}{\typeout{Rerun!}}
-\def\indexname{索引の例（スタイルに\texttt{priority 1}を追加）}
-\InputIfFileExists{\jobname-sub-3.ind}{}{\typeout{Rerun!}}
-\def\indexname{索引の例（スタイルに\texttt{character\_order "JESN"}を追加）}
-\InputIfFileExists{\jobname-sub-4.ind}{}{\typeout{Rerun!}}
+\def\IndexExample#1#2#3{%
+  \def\indexname{索引の例#1（#2）}%
+  \AddToHookNext{env/theindex/end}{\par\baselineskip12pt\vfill\vfill #3\par\vfill}%
+  \InputIfFileExists{\jobname-sub-#1.ind}{}{\typeout{Rerun!}}}
+\IndexExample{0}{\texttt{mendex}デフォルト}{}
+\IndexExample{1}{\texttt{mendex -s jpbase}}{}
+\IndexExample{2}{\texttt{mendex -s jpbase -g}}{}
+\IndexExample{3}{スタイルに\texttt{priority 1}を追加}{%
+  注：例2と注意深く見比べてください．既定では日本語文字よりも英字の方が
+  先（``alignat環境''→``align環境''）ですが，\texttt{priority}を\texttt{1}に設定
+  すると，日本語−英字間に半角スペースを入れてソートされるため，順番が入れ替わります．}
+\IndexExample{4}{スタイルに\texttt{character\_order "JESN"}を追加}{%
+  注：例2と注意深く見比べてください．なお，ここで\texttt{priority}は\texttt{0}のまま
+  としています．\texttt{character\_order}の文字種の判別においては，
+  半角スペースも記号類として扱われます．その結果，日本語文字より英字が
+  後（``align環境''→``alignat環境''）かつ，英字より半角スペースが
+  後（``dvips''→``DVI viewer''）になっています．}
+\IndexExample{5}{\texttt{mendex -s jpbase -g -l}}{%
+  注：例2と注意深く見比べてください．\texttt{-l}オプションにより空白文字を無視して
+  文字順（P→V）に並べたため，``dvips''→``DVI viewer''の順番に入れ替わりました．}
 
 %%% 以下，補助ファイル
 \begin{filecontents*}[overwrite]{\jobname-sub.idx}
-\indexentry{DVI}{18}
 \indexentry{コンパイル}{18}
 \indexentry{ログファイル}{18}
+\indexentry{DVI viewer}{18}
 \indexentry{dvips}{22}
 \indexentry{ごうじ@合字}{34}
 \indexentry{$>$}{35}
