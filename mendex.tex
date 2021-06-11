@@ -588,6 +588,7 @@ postamble  "\n\n\\end{theindex}\n"
  \item |mendex -s jpbase sample|（スタイル適用）
  \item |mendex -s jpbase -g sample|（さらに頭文字の区切りを「あかさ…わ」に）
  \item 上記スタイルに |priority 1| を追加（|align環境| と |alignat環境| の順序に注目）
+ \item 上記スタイルに |character_order "JESN"| を追加
 \end{itemize}
 なお，サンプルとして使用した\FileName{sample.idx}は以下の通りです（一部のみ）．
 \begin{quote}
@@ -616,6 +617,8 @@ postamble  "\n\n\\end{theindex}\n"
 \InputIfFileExists{\jobname-sub-2.ind}{}{\typeout{Rerun!}}
 \def\indexname{索引（スタイルに\texttt{priority 1}を追加）}
 \InputIfFileExists{\jobname-sub-3.ind}{}{\typeout{Rerun!}}
+\def\indexname{索引（スタイルに\texttt{character\_order "JESN"}を追加）}
+\InputIfFileExists{\jobname-sub-4.ind}{}{\typeout{Rerun!}}
 
 %%% 以下，補助ファイル
 \begin{filecontents*}[overwrite]{\jobname-sub.idx}
@@ -699,6 +702,10 @@ postamble  "\n\n\\end{theindex}\n"
 %
 \begin{filecontents*}[overwrite]{\jobname-sub-3.ist}
 priority 1
+\end{filecontents*}
+%
+\begin{filecontents*}[overwrite]{\jobname-sub-4.ist}
+character_order "JESN"
 \end{filecontents*}
 %%% 以上，補助ファイル
 
