@@ -582,36 +582,30 @@ postamble  "\n\n\\end{theindex}\n"
 ようにしています．デフォルトの定義も |preamble| パラメータで与えますので，
 これらの命令を定義せずに\FileName{jpbase.ist}単体でも動作します．
 既定のデザインは以下のように定義しています．
-\begin{quote}
 \begin{verbatim}
-\providecommand{\idxdelim}{\space\dotfill\space}
-\providecommand{\makeidxhead}[1]{{\vbox{\hbox to \linewidth{%
-  \sffamily\bfseries #1\ \hskip\fill}\vskip1pt\hrule}}\nopagebreak}
-\providecommand{\symbolindexname}{Symbols}
+    \providecommand{\idxdelim}{\space\dotfill\space}
+    \providecommand{\makeidxhead}[1]{{\vbox{\hbox to \linewidth{%
+      \sffamily\bfseries #1\ \hskip\fill}\vskip1pt\hrule}}\nopagebreak}
+    \providecommand{\symbolindexname}{Symbols}
 \end{verbatim}
-\end{quote}
 
 これらの命令をプリアンブルで予め定義しておけば，それが優先されます．例えば
-\begin{quote}
 \begin{verbatim}
-\newcommand{\makeidxhead}[1]{{\vbox{\hbox to \linewidth{%
-  ■\hfill\sffamily\bfseries #1\hfill ■}\vskip1pt\hrule}}\nopagebreak}
+    \newcommand{\makeidxhead}[1]{{\vbox{\hbox to \linewidth{%
+      ■\hfill\sffamily\bfseries #1\hfill ■}\vskip1pt\hrule}}\nopagebreak}
 \end{verbatim}
-\end{quote}
 とすれば見出しの表示形式が
 \begingroup
-\newcommand{\makeidxhead}[1]{{\vbox{\hbox to \linewidth{%
-  ■\hfill\sffamily\bfseries #1\hfill ■}\vskip1pt\hrule}}\nopagebreak}
-\begin{minipage}{.3\linewidth}
-\makeidxhead{あ}
-\end{minipage}
+    \newcommand{\makeidxhead}[1]{{\vbox{\hbox to \linewidth{%
+      ■\hfill\sffamily\bfseries #1\hfill ■}\vskip1pt\hrule}}\nopagebreak}
+    \begin{minipage}{.3\linewidth}
+    \makeidxhead{あ}
+    \end{minipage}
 \endgroup
 になりますし，
-\begin{quote}
 \begin{verbatim}
-\newcommand{\symbolindexname}{記号・数字}}
+    \newcommand{\symbolindexname}{記号・数字}}
 \end{verbatim}
-\end{quote}
 とすれば記号類の見出しが「Symbols」から「記号・数字」に変わります．
 
 次のページから，索引スタイルの適用例を示します．
@@ -622,11 +616,20 @@ postamble  "\n\n\\end{theindex}\n"
  \item 上記スタイルに |priority 1| を追加（|align環境| と |alignat環境| の順序に注目）
  \item 上記スタイルに |character_order "JESN"| を追加
 \end{itemize}
+索引スタイル\FileName{jpbase.ist}をベースに一部変更したい場合は，ファイルを複製して
+別名に変更してから編集すると良いでしょう．
+なお，\SoftName{mendex} |version 3.5 [6-Jun-2021]|以降で利用可能な「スタイルファイルを
+複数指定できる機能」を用いれば，元の\FileName{jpbase.ist}からの追加パラメータのみ記載
+した小さなスタイルファイル（例えば\FileName{mystyle.ist}）を準備して，以下のコマンドで
+簡単に適用できます．
+\begin{verbatim}
+    $ mendex -s jpbase -s mystyle ...
+\end{verbatim}
+
 なお，サンプルとして使用した\FileName{sample.idx}は以下の通りです（一部のみ）．
 \begin{quote}
 \hrule\vskip10pt\noautospacing\noautoxspacing
 \begin{verbatim}
-% sample.idx
 \indexentry{DVI}{18}
 \indexentry{コンパイル}{18}
 ...(略)...
