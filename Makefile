@@ -29,7 +29,7 @@ all: $(PDFTARGET)
 	mv mendex-sub.ind mendex-sub-5.ind
 	$(LTX) $<
 	$(LTX) $<
-	rm -f *.aux *.log *.toc *out *.idx *.ind *.ilg *-sub-*.ist
+	rm -f *.aux *.log *.toc *.out *.idx *.ind *.ilg *-sub-*.ist
 .dvi.pdf:
 	$(DPX) $<
 

@@ -1,6 +1,7 @@
 % jpbook.ist - general settings, part of mendex package.
 % also works with makeindex.
 % これは mendex スタイルファイルのサンプルです
+% (Last update: 2021/06/17 texjporg)
 
 %% Use general commands (M. Yamamoto, @munepi)
 headings_flag    1
