@@ -41,5 +41,7 @@ install:
 	cp ./Makefile ${TEXMF}/doc/support/mendex/
 	cp ./*.tex ${TEXMF}/doc/support/mendex/
 	cp ./*.pdf ${TEXMF}/doc/support/mendex/
+	mkdir -p ${TEXMF}/makeindex/mendex
+	cp ./*.ist ${TEXMF}/makeindex/mendex/
 clean:
 	rm -f $(DVITARGET) $(PDFTARGET)
