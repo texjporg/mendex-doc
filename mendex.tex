@@ -616,12 +616,12 @@ postamble  "\n\n\\end{theindex}\n"
 これらの命令をプリアンブルで予め定義しておけば，それが優先されます．例えば
 \begin{verbatim}
     \newcommand{\makeidxhead}[1]{{\vbox{\hbox to \linewidth{%
-      ■\hfill\sffamily\bfseries #1\hfill ■}\vskip1pt\hrule}}\nopagebreak}
+      \sffamily\bfseries ■\hfill #1\hfill ■}\vskip1pt\hrule}}\nopagebreak}
 \end{verbatim}
 とすれば見出しの表示形式が
 \begingroup
     \newcommand{\makeidxhead}[1]{{\vbox{\hbox to \linewidth{%
-      ■\hfill\sffamily\bfseries #1\hfill ■}\vskip1pt\hrule}}\nopagebreak}
+      \sffamily\bfseries ■\hfill #1\hfill ■}\vskip1pt\hrule}}\nopagebreak}
     \begin{minipage}{.3\linewidth}
     \makeidxhead{あ}
     \end{minipage}
