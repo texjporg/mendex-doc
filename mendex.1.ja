@@ -376,13 +376,13 @@ lethead_flagと同じ。(makeindex互換)
 \fBsymhead_positive\fR  <文字列>
 "Symbols"
 .RS
-lethead_flag または heading_flag が正数の場合に記号の頭文字として出力する文字列。
+lethead_flag または heading_flag または headings_flag が正数の場合に記号の頭文字として出力する文字列。
 .RE
 .TP 30
 \fBsymhead_negative\fR  <文字列>
 "symbols"
 .RS
-lethead_flag または heading_flag が負数の場合に記号の頭文字として出力する文字列。
+lethead_flag または heading_flag または headings_flag が負数の場合に記号の頭文字として出力する文字列。
 .RE
 .TP 30
 \fBsymbol\fR  <文字列>
@@ -396,13 +396,13 @@ symbol_flag が0でない場合に、記号の頭文字として出力する文�
 \fBnumhead_positive\fR  <文字列>
 "Numbers"
 .RS
-lethead_flag または heading_flag が正数の場合に数字の頭文字として出力する文字列。
+lethead_flag または heading_flag または headings_flag が正数かつ symbol_flag が2の場合に数字の頭文字として出力する文字列。
 .RE
 .TP 30
 \fBnumhead_negative\fR  <文字列>
 "numbers"
 .RS
-lethead_flag または heading_flag が負数の場合に数字の頭文字として出力する文字列。
+lethead_flag または heading_flag または headings_flag が負数かつ symbol_flag が2の場合に数字の頭文字として出力する文字列。
 .RE
 .TP 30
 \fBsymbol_flag\fR  <数値>
@@ -431,7 +431,7 @@ lethead_flag または heading_flag が負数の場合に数字の頭文字と�
 .RS
 記号、英字、日本語の優先順位。
 \'S\'は記号、\'N\'は数字、\'E\'は英字、\'J\'は日本語を表す。(mendex専用)
-symbol_flag=1のとき、索引項目の分類として「数字」は「記号」に含めるので、\'S\'と\'N\'は必ず隣り合わせてください（数字と数字以外の記号の順序入れ替えは可能です）。
+symbol_flagが1以下のとき、索引項目の分類として「数字」は「記号」に含めるので、\'S\'と\'N\'は必ず隣り合わせてください（数字と数字以外の記号の順序入れ替えは可能です）。
 .RE
 .PP
 .SH 日本語の扱いについて

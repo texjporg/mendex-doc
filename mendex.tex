@@ -265,6 +265,9 @@
 |lethead_flag| と同じ．\\
 \SoftName{makeindex}では |headings_flag| という名称のため，互換性がありません．
 
+\item[|headings\string_flag|] \ParamNum|0|
+|lethead_flag| と同じ．（\SoftName{makeindex}互換）
+
 \item[|item\string_0|] \ParamString*|\n  \\item |
 主エントリ間に挿入するコマンド．
 
@@ -336,17 +339,26 @@
 折り返した行の頭に挿入されるスペースの長さ．
 
 \item[|symhead\string_positive|] \ParamString*|Symbols|
-|lethead_flag| または |heading_flag| が正数の場合に数字・記号の頭文字として出力する文字列．
+|lethead_flag| または |heading_flag| または |headings_flag| が正数の場合に記号の頭文字として出力する文字列．
 
 \item[|symhead\string_negative|] \ParamString*|symbols|
-|lethead_flag| または |heading_flag| が負数の場合に数字・記号の頭文字として出力する文字列．
+|lethead_flag| または |heading_flag| または |headings_flag| が負数の場合に記号の頭文字として出力する文字列．
 
 \item[|symbol|] \ParamString*||
-|symbol_flag| が|0|でない場合に，数字・記号の頭文字として出力する文字列．文字列が定義されて
+|symbol_flag| が|0|でない場合に，記号の頭文字として出力する文字列．文字列が定義されて
 いれば，|symhead_positive| および |symhead_negative| より優先される（\SoftName{mendex}専用）．
 
+\item[|numhead\string_positive|] \ParamString*|Numbers|
+|lethead_flag| または |heading_flag| または |heading_flag| が正数かつ|symbol_flag| が|2|の場合に数字の頭文字として出力する文字列．
+
+\item[|numhead\string_negative|] \ParamString*|numbers|
+|lethead_flag| または |heading_flag| または |heading_flag| が負数かつ|symbol_flag| が|2|の場合に数字の頭文字として出力する文字列．
+
 \item[|symbol\string_flag|] \ParamNum|1|
-数字・記号の頭文字の出力フラグ．|0|のとき出力しない（\SoftName{mendex}専用）．
+数字・記号の頭文字の出力フラグ．|0|のとき見出しを出力しない．
+|1|のとき数字を記号の一部として扱い記号の見出しを出力する．
+|2|のとき数字と記号を別の集合に分類し数字と記号の見出しを出力する．
+（\SoftName{mendex}専用）．
 
 \item[|letter\string_head|] \ParamNum|1|
 日本語の頭文字の出力のフラグ．|1|のときカタカナ，|2|のときひらがなで出力する
@@ -359,7 +371,7 @@
 \item[|character\string_order|] \ParamString*|SNEJ|
 記号，英字，日本語の優先順位．`|S|' は記号，`|N|' は数字，`|E|' は英字，`|J|' は日本語を表す
 （\SoftName{mendex}専用）．
-\SoftName{mendex}では，後述のとおり，索引項目の分類として「数字」は「記号」に含める
+\SoftName{mendex}では，後述のとおり，|symbol_flag| が|1|の以下の場合索引項目の分類として「数字」は「記号」に含める
 仕様としています\footnote{\SoftName{makeindex}では，記号類と数字を別のブロックに
 （|group\_skip|を挿入）しますが，\SoftName{mendex}では同一のブロックにします．}ので，
 `|S|' と `|N|' は必ず隣り合わせてください（数字と数字以外の記号の順序入れ替えは可能です）．
@@ -378,16 +390,19 @@
 \begin{itemize}
 \item \SoftName{makeindex}には索引項目の分類として「記号」，「アルファベット」の
   他に，数字のみの項目として「数字」という分類がありますが，
-  \SoftName{mendex}では数字は「記号」に含まれます．
-  また，\SoftName{makeindex}に存在するスタイルパラメータのうち，
+  \SoftName{mendex}では|symbol_flag| が|1|以下の場合数字は「記号」に含まれます．
+  また，そのとき\SoftName{makeindex}に存在するスタイルパラメータのうち，
   |numhead_positive|と|numhead_negative|は認識されません．
+  \SoftName{mendex} v3.6以降では|symbol_flag|を|2|に設定すると「記号」と「数字」が
+  区別され|numhead_positive|と|numhead_negative|は認識されます．
 
 \item 数字・記号→欧文→和文の順にこだわらない索引の作成が可能です
   （|character_order|パラメータを追加）．他に\SoftName{mendex}で追加された
   スタイルパラメータには，|symbol|，|symbol_flag|，|letter_head|，|priority|があります．
 
-\item \SoftName{makeindex}の |headings_flag| は，\SoftName{mendex}では
-  |heading_flag| となっており，互いに互換性がありません．
+\item \SoftName{makeindex}の |headings_flag| は，\SoftName{mendex} v3.5以前では
+  |heading_flag| となっており互いに互換性がありませんでしたが，
+  \SoftName{mendex} v3.6に |headings_flag| が追加されました．
   また，|lethead_flag|，|lethead_prefix|，|lethead_suffix|は，かつて\SoftName{makeindex}の
   文書で言及されていましたが，現在は削除され\SoftName{mendex}専用となっています．
 
