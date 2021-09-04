@@ -9,7 +9,9 @@
 .SH NAME
 mendex \- Japanese index processor
 .SH SYNOPSIS
-\fBmendex\fR [-ilqrcgfEJSU] [\fB-s\fI sty\fR] [\fB-d\fI dic\fR] [\fB-o\fI ind\fR] [\fB-t\fI log\fR] [\fB-p\fI no\fR] [\fB-I\fI enc\fR] [\fB--help\fR] [\fB--\fR] [\fI idx0 idx1 idx2 ...\fR]
+\fBmendex\fR [-ilqrcgfEJSU] [\fB-s\fI sty\fR] [\fB-d\fI dic\fR] [\fB-o\fI ind\fR] [\fB-t\fI log\fR] [\fB-p\fI no\fR] [\fB-I\fI enc\fR] [[\fB--\fR] [\fI idx0 idx1 idx2 ...\fR]
+.br
+\fBmendex\fR \fB--help\fR
 .SH DESCRIPTION
 .PP
 The program \fImendex\fR is a general purpose hierarchical index generator;
@@ -259,6 +261,12 @@ Flag to control output of heading letters.
 Same as \fBlethead_flag\fR. (Note: makeindex uses a different name \fBheadings_flag\fR)
 .RE
 .TP 30
+\fBheadings_flag\fR  <number>
+0
+.RS
+Same as \fBlethead_flag\fR. (compatible with makeindex)
+.RE
+.TP 30
 \fBitem_0\fR  <string>
 "\\n  \\\\item "
 .RS
@@ -412,31 +420,47 @@ Length of space for indent which inserted to top of folded line.
 \fBsymhead_positive\fR  <string>
 "Symbols"
 .RS
-Strings to output as heading letter for numbers and symbols
-when lethead_flag or heading_flag is positive number.
+Strings to output as heading letter for symbols
+when lethead_flag or heading_flag or headings_flag is positive number.
 .RE
 .TP 30
 \fBsymhead_negative\fR  <string>
 "symbols"
 .RS
-Strings to output as heading letter for numbers and symbols
-when lethead_flag or heading_flag is negative number.
+Strings to output as heading letter for symbols
+when lethead_flag or heading_flag or headings_flag is negative number.
 .RE
 .TP 30
 \fBsymbol\fR  <string>
 ""
 .RS
-Strings to output as heading letter for numbers and symbols
+Strings to output as heading letter for symbols
 when symbol_flag is non zero.
 .RE
 If specified, the option is prior to symhead_positive and symhead_negative.
 (Extended by mendex)
 .RE
 .TP 30
+\fBnumhead_positive\fR  <string>
+"Numbers"
+.RS
+Strings to output as heading letter for numbers
+when lethead_flag or heading_flag or headings_flag is positive number.
+.RE
+.TP 30
+\fBnumhead_negative\fR  <string>
+"numbers"
+.RS
+Strings to output as heading letter for numbers
+when lethead_flag or heading_flag or headings_flag is negative number.
+.RE
+.TP 30
 \fBsymbol_flag\fR  <number>
 1
 .RS
-Flag to output of symbol. If \'0\', do not output.
+Flag to output of symbol. If \'0\', do not output headings for symbols and numbers.
+If \'1\', output symbols and numbers as a group of symbols.
+If \'2\', output symbols and numbers separately.
 (Extended by mendex)
 .RE
 .TP 30
@@ -464,8 +488,8 @@ Japanese sequence and non-Japanese sequence in sorting procedure.
 Order of scripts and symbols.
 \'S\', \'N\', \'E\' and \'J\' respectively denotes symbol, numbers, English and Japanese.
 (Extended by mendex)
-Please make sure that \'S\' and \'N\' are next to each other,
-since \fBmendex\fR considers numbers as part of symbol.
+Please make sure that \'S\' and \'N\' are next to each other if symbol_flag=1,
+since numbers are classified as a part of symbol.
 .RE
 .PP
 .SH ABOUT JAPANESE PROCESSING

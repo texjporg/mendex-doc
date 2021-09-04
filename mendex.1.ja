@@ -9,7 +9,9 @@
 .SH 名称
 mendex \- 索引整形ツール
 .SH 使用法
-\fBmendex\fR [-ilqrcgfEJSU] [\fB-s\fI sty\fR] [\fB-d\fI dic\fR] [\fB-o\fI ind\fR] [\fB-t\fI log\fR] [\fB-p\fI no\fR] [\fB-I\fI enc\fR] [\fB--help\fR] [\fB--\fR] [\fI idx0 idx1 idx2 ...\fR]
+\fBmendex\fR [-ilqrcgfEJSU] [\fB-s\fI sty\fR] [\fB-d\fI dic\fR] [\fB-o\fI ind\fR] [\fB-t\fI log\fR] [\fB-p\fI no\fR] [\fB-I\fI enc\fR] [\fB--\fR] [\fI idx0 idx1 idx2 ...\fR]
+.br
+\fBmendex\fR \fB--help\fR
 .SH 解説
 .PP
 \fImendex\fR は文書の索引を作成するコマンドラインツールです。 LaTeX により抽出された索引リストファイル(\fI.idx\fR)を並べ替え、実際の索引のソースファイルの形に整形します。 \fImakeindex\fR と互換性があり、さらに「読み」の扱いの手間を減らすように特殊化されています。
@@ -227,6 +229,12 @@ lethead_suffixと同じ。(makeindex互換)
 lethead_flagと同じ。makeindexではheadings_flagという名称のため、互換性がありません。
 .RE
 .TP 30
+\fBheadings_flag\fR  <数値>
+0
+.RS
+lethead_flagと同じ。(makeindex互換)
+.RE
+.TP 30
 \fBitem_0\fR  <文字列>
 "\\n  \\\\item "
 .RS
@@ -368,27 +376,42 @@ lethead_flagと同じ。makeindexではheadings_flagという名称のため、�
 \fBsymhead_positive\fR  <文字列>
 "Symbols"
 .RS
-lethead_flag または heading_flag が正数の場合に数字・記号の頭文字として出力する文字列。
+lethead_flag または heading_flag が正数の場合に記号の頭文字として出力する文字列。
 .RE
 .TP 30
 \fBsymhead_negative\fR  <文字列>
 "symbols"
 .RS
-lethead_flag または heading_flag が負数の場合に数字・記号の頭文字として出力する文字列。
+lethead_flag または heading_flag が負数の場合に記号の頭文字として出力する文字列。
 .RE
 .TP 30
 \fBsymbol\fR  <文字列>
 ""
 .RS
-symbol_flag が0でない場合に、数字・記号の頭文字として出力する文字列。
+symbol_flag が0でない場合に、記号の頭文字として出力する文字列。
 .RE
 文字列が定義されていれば、symhead_positive および symhead_negative より優先される。(mendex専用)
+.RE
+.TP 30
+\fBnumhead_positive\fR  <文字列>
+"Numbers"
+.RS
+lethead_flag または heading_flag が正数の場合に数字の頭文字として出力する文字列。
+.RE
+.TP 30
+\fBnumhead_negative\fR  <文字列>
+"numbers"
+.RS
+lethead_flag または heading_flag が負数の場合に数字の頭文字として出力する文字列。
 .RE
 .TP 30
 \fBsymbol_flag\fR  <数値>
 1
 .RS
-数字・記号の頭文字の出力フラグ。0のとき出力しない。(mendex専用)
+数字・記号の頭文字の出力フラグ。0のとき見出しを出力しない。
+1のとき数字を記号の一部として扱い記号の見出しを出力する。
+2のとき数字と記号を別の集合に分類し数字と記号の見出しを出力する。
+(mendex専用)
 .RE
 .TP 30
 \fBletter_head\fR  <数値>
@@ -408,7 +431,7 @@ symbol_flag が0でない場合に、数字・記号の頭文字として出力�
 .RS
 記号、英字、日本語の優先順位。
 \'S\'は記号、\'N\'は数字、\'E\'は英字、\'J\'は日本語を表す。(mendex専用)
-mendexでは索引項目の分類として「数字」は「記号」に含める仕様としていますので、\'S\'と\'N\'は必ず隣り合わせてください（数字と数字以外の記号の順序入れ替えは可能です）。
+symbol_flag=1のとき、索引項目の分類として「数字」は「記号」に含めるので、\'S\'と\'N\'は必ず隣り合わせてください（数字と数字以外の記号の順序入れ替えは可能です）。
 .RE
 .PP
 .SH 日本語の扱いについて
