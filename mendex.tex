@@ -266,7 +266,7 @@
 \SoftName{makeindex}では |headings_flag| という名称のため，互換性がありません．
 
 \item[|headings\string_flag|] \ParamNum|0|
-|lethead_flag| と同じ．（\SoftName{makeindex}互換）
+|lethead_flag| と同じ．（\SoftName{mendex} v3.6で認識するように，\SoftName{makeindex}互換）
 
 \item[|item\string_0|] \ParamString*|\n  \\item |
 主エントリ間に挿入するコマンド．
@@ -339,20 +339,22 @@
 折り返した行の頭に挿入されるスペースの長さ．
 
 \item[|symhead\string_positive|] \ParamString*|Symbols|
-|lethead_flag| または |heading_flag| または |headings_flag| が正数の場合に記号の頭文字として出力する文字列．
+|lethead_flag|（または |heading_flag| または |headings_flag|）が正数の場合に記号の頭文字として出力する文字列．
 
 \item[|symhead\string_negative|] \ParamString*|symbols|
-|lethead_flag| または |heading_flag| または |headings_flag| が負数の場合に記号の頭文字として出力する文字列．
+|lethead_flag|（または |heading_flag| または |headings_flag|）が負数の場合に記号の頭文字として出力する文字列．
 
 \item[|symbol|] \ParamString*||
 |symbol_flag| が|0|でない場合に，記号の頭文字として出力する文字列．文字列が定義されて
 いれば，|symhead_positive| および |symhead_negative| より優先される（\SoftName{mendex}専用）．
 
 \item[|numhead\string_positive|] \ParamString*|Numbers|
-|lethead_flag| または |heading_flag| または |heading_flag| が正数かつ|symbol_flag| が|2|の場合に数字の頭文字として出力する文字列．
+|lethead_flag|（または |heading_flag| または |heading_flag|）が正数，
+かつ |symbol_flag| が|2|の場合に数字の頭文字として出力する文字列．
 
 \item[|numhead\string_negative|] \ParamString*|numbers|
-|lethead_flag| または |heading_flag| または |heading_flag| が負数かつ|symbol_flag| が|2|の場合に数字の頭文字として出力する文字列．
+|lethead_flag|（または |heading_flag| または |heading_flag|）が負数，
+かつ |symbol_flag| が|2|の場合に数字の頭文字として出力する文字列．
 
 \item[|symbol\string_flag|] \ParamNum|1|
 数字・記号の頭文字の出力フラグ．|0|のとき見出しを出力しない．
