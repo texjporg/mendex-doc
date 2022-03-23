@@ -34,8 +34,17 @@
 \newcommand{\Meta}[1]{$\langle$\mbox{}\textit{#1}\mbox{}$\rangle$}
 \newcommand{\jMeta}[1]{$\langle$\mbox{}\textsf{#1}\mbox{}$\rangle$}
 
+% バージョン番号取得
+\IfFileExists{mendex-version.log}{%
+  \immediate\openin10=mendex-version.log
+  \readline10 to\MendexVersion
+  \immediate\closein10
+  \edef\MendexVersion{\noexpand\STRIP\MendexVersion\noexpand\NIL}
+  \def\STRIP##1, ##2 (##3\NIL{\\\texttt{##2}}
+}{\def\MendexVersion{}}
+
 % 文書情報
-\title{\SoftName{mendex}：索引整形ツール}
+\title{\SoftName{mendex}：索引整形ツール \MendexVersion}
 \author{アスキー・メディアワークス \and 日本語\TeX 開発コミュニティ}
 
 \begin{document}
@@ -149,7 +158,7 @@
 
 \item[|--|]
 以降はオプション文字列と解釈しません．
-これは，ファイル名の先頭の文字が|-|であるファイルを扱う場合に有用です．
+これは，ファイル名の先頭の文字が |-| であるファイルを扱う場合に有用です．
 \end{description}
 
 以上のうち，オプション |-U|, |-I|, |--help|, |--| はオリジナルのアスキー版にはなかった機能で，
@@ -157,6 +166,7 @@
 また，\SoftName{mendex} |version 3.5 [6-Jun-2021]|以降では，|-s| オプションによる
 スタイルファイルを複数指定することができます．
 同じパラメータが複数回指定された場合は，後から指定された方が有効になります．
+% https://github.com/texjporg/tex-jp-build/issues/116
 
 \subsection{スタイルファイル}
 
@@ -202,7 +212,8 @@
 \SoftName{makeindex}で日本語の索引を作成しようとすると，全ての項目について
 |\index{かんじ@漢字}| のように |actual| のシンボルの前に「読み」を，
 後ろに実際に表示する索引文字列を書く必要がありました．
-\SoftName{mendex}では，辞書ファイルを用いることで，その手間を最小限にできます．
+\SoftName{mendex}では辞書ファイルを用いることで手間を最小限にできますが，
+辞書と異なる読みを持つ項目がある場合にこの書式を用います．
 
 \item[|encap|] \ParamChar+|+ \par
 このシンボルに続く文字列が，ページ番号に付くコマンド名として使われる．
@@ -213,6 +224,10 @@
 \item[|page\string_precedence|] \ParamString*|rnaRA|
 ページ番号の記法の優先順位．`|R|' および `|r|' はローマ数字，`|n|' はアラビア数字，
 `|A|' および `|a|' はアルファベットによる記法を表す．
+\footnote{ローマ数字とアラビア数字のページ番号が混在するとき，
+\SoftName{makeindex}並みに動作するようになったのは
+|version 3.6 [4-Sep-2021]|以降．}
+% https://github.com/texjporg/tex-jp-build/issues/112
 
 \item[|quote|] \ParamChar|"|
 \SoftName{mendex}のパラメータ文字に対するエスケープキャラクタ．
@@ -262,11 +277,11 @@
 % |lethead_prefix| と |lethead_suffix| も同様．
 
 \item[|heading\string_flag|] \ParamNum|0|
-|lethead_flag| と同じ．\\
-\SoftName{makeindex}では |headings_flag| という名称のため，互換性がありません．
+|lethead_flag| と同じ．（\SoftName{mendex}専用，\SoftName{makeindex}には認識されない）
 
 \item[|headings\string_flag|] \ParamNum|0|
-|lethead_flag| と同じ．（\SoftName{mendex} v3.6で認識するように，\SoftName{makeindex}互換）
+|lethead_flag| と同じ．（\SoftName{mendex} v3.6で新たにサポート，\SoftName{makeindex}互換）
+% https://github.com/texjporg/tex-jp-build/issues/124
 
 \item[|item\string_0|] \ParamString*|\n  \\item |
 主エントリ間に挿入するコマンド．
@@ -281,13 +296,13 @@
 主−サブエントリ間に挿入するコマンド．
 
 \item[|item\string_x1|] \ParamString*|\n    \\subitem |
-主−サブエントリ間に挿入するコマンド（主エントリにページ番号がないとき）．
+主エントリにページ番号がないときに，主−サブエントリ間に挿入するコマンド．
 
 \item[|item\string_12|] \ParamString*|\n    \\subsubitem |
 サブ−サブサブエントリ間に挿入するコマンド．
 
 \item[|item\string_x2|] \ParamString*|\n    \\subsubitem |
-サブ−サブサブエントリ間に挿入するコマンド（サブエントリにページ番号がないとき）．
+サブエントリにページ番号がないときに，サブ−サブサブエントリ間に挿入するコマンド．
 
 \item[|delim\string_0|] \ParamString*|, |
 主エントリと最初のページ番号の間の区切り文字列．
@@ -339,43 +354,49 @@
 折り返した行の頭に挿入されるスペースの長さ．
 
 \item[|symhead\string_positive|] \ParamString*|Symbols|
-|lethead_flag|（または |heading_flag| または |headings_flag|）が正数の場合に記号の頭文字として出力する文字列．
+|lethead_flag|（または |heading_flag| または |headings_flag|）が正数の場合に
+記号の頭文字として出力する文字列．
 
 \item[|symhead\string_negative|] \ParamString*|symbols|
-|lethead_flag|（または |heading_flag| または |headings_flag|）が負数の場合に記号の頭文字として出力する文字列．
+|lethead_flag|（または |heading_flag| または |headings_flag|）が負数の場合に
+記号の頭文字として出力する文字列．
 
 \item[|symbol|] \ParamString*||
-|symbol_flag| が|0|でない場合に，記号の頭文字として出力する文字列．文字列が定義されて
-いれば，|symhead_positive| および |symhead_negative| より優先される（\SoftName{mendex}専用）．
+|symbol_flag| が|0|でない場合に，記号の頭文字として出力する文字列．
+文字列が定義されていれば，|symhead_positive| および |symhead_negative| より
+優先される．（\SoftName{mendex}専用）
 
 \item[|numhead\string_positive|] \ParamString*|Numbers|
-|lethead_flag|（または |heading_flag| または |heading_flag|）が正数，
+|lethead_flag|（または |heading_flag| または |headings_flag|）が正数，
 かつ |symbol_flag| が|2|の場合に数字の頭文字として出力する文字列．
 
 \item[|numhead\string_negative|] \ParamString*|numbers|
-|lethead_flag|（または |heading_flag| または |heading_flag|）が負数，
+|lethead_flag|（または |heading_flag| または |headings_flag|）が負数，
 かつ |symbol_flag| が|2|の場合に数字の頭文字として出力する文字列．
 
 \item[|symbol\string_flag|] \ParamNum|1|
 数字・記号の頭文字の出力フラグ．|0|のとき見出しを出力しない．
 |1|のとき数字を記号の一部として扱い記号の見出しを出力する．
 |2|のとき数字と記号を別の集合に分類し数字と記号の見出しを出力する．
-（\SoftName{mendex}専用）．
+（\SoftName{mendex}専用，値|2|のサポートはv3.6以降）
 
 \item[|letter\string_head|] \ParamNum|1|
-日本語の頭文字の出力のフラグ．|1|のときカタカナ，|2|のときひらがなで出力する
-（\SoftName{mendex}専用）．
+日本語の頭文字の出力のフラグ．|1|のときカタカナ，|2|のときひらがなで出力する．
+（\SoftName{mendex}専用）
 
 \item[|priority|] \ParamNum|0|
-英字と日本語との混在した索引語のソート方法についてのフラグ．|0|でなければ英字と日本語との
-間に半角スペースを入れた状態でソートする（\SoftName{mendex}専用）．
+英字と日本語との混在した索引語のソート方法についてのフラグ．|0|でなければ英字と
+日本語との間に半角スペースを入れた状態でソートする．（\SoftName{mendex}専用）
 
 \item[|character\string_order|] \ParamString*|SNEJ|
-記号，英字，日本語の優先順位．`|S|' は記号，`|N|' は数字，`|E|' は英字，`|J|' は日本語を表す
-（\SoftName{mendex}専用）．
-\SoftName{mendex}では，後述のとおり，|symbol_flag| が|1|の以下の場合索引項目の分類として「数字」は「記号」に含める
-仕様としています\footnote{\SoftName{makeindex}では，記号類と数字を別のブロックに
-（|group\_skip|を挿入）しますが，\SoftName{mendex}では同一のブロックにします．}ので，
+記号，英字，日本語の優先順位．
+`|S|' は記号，`|N|' は数字，`|E|' は英字，`|J|' は日本語を表す．
+（\SoftName{mendex}専用）
+
+後述のとおり，|symbol_flag| が|1|以下の場合に\SoftName{mendex}は
+索引項目の分類として「数字」は「記号」に含める仕様としています
+\footnote{\SoftName{makeindex}では，記号類と数字を別のブロックに
+（|group\_skip| を挿入）しますが，\SoftName{mendex}では同一のブロックにします．}ので，
 `|S|' と `|N|' は必ず隣り合わせてください（数字と数字以外の記号の順序入れ替えは可能です）．
 % もともと "SEJ" とドキュメントされていたが，実装に合わせて "SNEJ" と規定する．
 % 以下の議論も参考に．
@@ -392,20 +413,20 @@
 \begin{itemize}
 \item \SoftName{makeindex}には索引項目の分類として「記号」，「アルファベット」の
   他に，数字のみの項目として「数字」という分類がありますが，
-  \SoftName{mendex}では|symbol_flag| が|1|以下の場合数字は「記号」に含まれます．
+  \SoftName{mendex}では |symbol_flag| が|1|以下の場合に数字を「記号」に含めます．
   また，そのとき\SoftName{makeindex}に存在するスタイルパラメータのうち，
-  |numhead_positive|と|numhead_negative|は認識されません．
-  \SoftName{mendex} v3.6以降では|symbol_flag|を|2|に設定すると「記号」と「数字」が
-  区別され|numhead_positive|と|numhead_negative|は認識されます．
+  |numhead_positive| と |numhead_negative| は認識されません．
+  \SoftName{mendex} v3.6以降では |symbol_flag| を|2|に設定すると「記号」と「数字」が
+  区別され |numhead_positive| と |numhead_negative| は認識されます．
 
 \item 数字・記号→欧文→和文の順にこだわらない索引の作成が可能です
-  （|character_order|パラメータを追加）．他に\SoftName{mendex}で追加された
+  （|character_order| パラメータを追加）．他に\SoftName{mendex}で追加された
   スタイルパラメータには，|symbol|，|symbol_flag|，|letter_head|，|priority|があります．
 
 \item \SoftName{makeindex}の |headings_flag| は，\SoftName{mendex} v3.5以前では
-  |heading_flag| となっており互いに互換性がありませんでしたが，
+  |heading_flag| となっており互換性がありませんでしたが，
   \SoftName{mendex} v3.6に |headings_flag| が追加されました．
-  また，|lethead_flag|，|lethead_prefix|，|lethead_suffix|は，かつて\SoftName{makeindex}の
+  また，|lethead_flag|，|lethead_prefix|，|lethead_suffix| は，かつて\SoftName{makeindex}の
   文書で言及されていましたが，現在は削除され\SoftName{mendex}専用となっています．
 
 \item \SoftName{makeindex}の項目の並び順は，頭文字は

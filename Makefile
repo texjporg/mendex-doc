@@ -14,6 +14,7 @@ all: $(PDFTARGET)
 
 .SUFFIXES: .tex .dvi .pdf
 .tex.dvi:
+	$(MDX) -h 2>mendex-version.log
 	$(LTX) $<
 	$(MDX) mendex-sub
 	mv mendex-sub.ind mendex-sub-0.ind
