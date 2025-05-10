@@ -462,6 +462,14 @@
 % 適切に並べ替えることができます．
 % → https://github.com/texjporg/tex-jp-build/issues/112 とも関連
 
+% [TODO] さらなる mendex / makeindex 挙動の違い
+% https://github.com/texjporg/tex-jp-build/issues/173
+%
+% 挙動の異なる例： \index{one brace {@\string}}
+%   makeindex: \item \string}, 1
+%   (up)mendex: \item one brace {@\string}, 1
+% => その後の latex で makeindex は大丈夫だが (up)mendex はエラーになる
+
 \section{日本語の扱いについて}
 
 \SoftName{mendex}は日本語の索引をできるだけ楽に扱えるようになっています．
