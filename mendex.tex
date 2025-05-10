@@ -153,6 +153,11 @@
 値は |utf8| です\footnote{v2.6fまでは「デフォルト値が |euc| で，オプション |-U| が
 明示的に指定されている場合は |utf8| となる」という仕様でしたが，v3.0で変更しました．}．
 
+\item[|--guess-input-enc| および |--no-guess-input-enc|]
+入力ファイルの文字コード推測機能を明示的に有効化または無効化します．
+\TeX~Live 2023以降では，デフォルトで文字コード推測機能が有効です．
+% https://github.com/texjporg/tex-jp-build/issues/142
+
 \item[|--help|]
 オプションの要約を表示します．
 
@@ -161,7 +166,8 @@
 これは，ファイル名の先頭の文字が |-| であるファイルを扱う場合に有用です．
 \end{description}
 
-以上のうち，オプション |-U|, |-I|, |--help|, |--| はオリジナルのアスキー版にはなかった機能で，
+以上のうち，オプション |-U|, |-I|, |--[no-]guess-input-enc|, |--help|, |--| は
+オリジナルのアスキー版にはなかった機能で，
 日本語\TeX 開発コミュニティによって追加されました．
 また，\SoftName{mendex} |version 3.5 [6-Jun-2021]|以降では，|-s| オプションによる
 スタイルファイルを複数指定することができます．
@@ -522,9 +528,22 @@ indファイル & index sort
 \end{tabular}
 \end{quote}
 
-\section{環境変数について}
+\section{環境変数・kpathseaライブラリ変数について}
 
-\SoftName{mendex}では以下のような環境変数を使用しています．
+\SoftName{mendex}では，\FileName{texmf.cnf}や環境変数で
+以下の変数を設定すればそれを使用します．
+
+% [TODO] 敢えてドキュメント化しないが：
+% https://github.com/texjporg/tex-jp-build/issues/175
+%
+% * 変数 |INDEXSTYLE| について：
+%   環境変数の末尾が |INDEXSTYLE=.;./bar/;| のようにセパレータで終わる場合，
+%   従来の\SoftName{mendex}では環境変数のパスからしか検索されなかったが，
+%   \SoftName{makeindex}が\FileName{texmf.cnf}の設定値を補って検索することに
+%   合わせるため，\TeX~Live 2025以降はkpathseaの関数|kpse_find_file|を使うようにした．
+%
+% * 変数 |INDEXDICTIONARY| については，辞書ファイルを|kpse_find_file|が
+%   サポートしないため，独自実装を維持した．
 
 \begin{description}[leftmargin=5cm]
 \item[|INDEXSTYLE|]
@@ -538,6 +557,10 @@ indファイル & index sort
 
 \item[|INDEXDEFAULTDICTIONARY|]
 常に参照する辞書ファイル．
+
+\item[|guess\string_input\string_kanji\string_encoding|]
+入力ファイルの文字コード推測機能を有効とするか否か（\TeX~Live 2023以降）．
+値が1ならば有効，0ならば無効．
 \end{description}
 
 \section{既知の問題}
@@ -549,7 +572,7 @@ indファイル & index sort
 \section{トラブルシューティング}
 \SoftName{mendex}でも，\SoftName{makeindex}用のスタイルファイルを流用することができる
 場合があります．ただし，期待通りに動作しない場合もあるため，注意点を挙げておきます．
-% 2021年6月現在，\TeX\ Liveの |texmf-dist/makeindex| 以下に収録されているものは
+% 2021年6月現在，\TeX~Liveの |texmf-dist/makeindex| 以下に収録されているものは
 % ほとんど使いづらい．
 
 \subsection{\FileName{gind.ist}や\FileName{gglo.ist}が使えない}
