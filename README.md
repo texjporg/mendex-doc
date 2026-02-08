@@ -20,6 +20,7 @@ Following features are added by Japanese TeX Development Community:
 * option `-U`: Set input/output character encoding to UTF-8.
 * option `-I enc`: Set internal character encoding to `enc`.
 * option `--help`: Show summary of options.
+* option `--version`: Show version information.
 * option `--`: Arguments after `--` are not taken as options.
 
 

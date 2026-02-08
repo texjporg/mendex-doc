@@ -12,6 +12,7 @@ mendex \- 索引整形ツール
 \fBmendex\fR [-ilqrcgfEJSU] [\fB-s\fI sty\fR] [\fB-d\fI dic\fR] [\fB-o\fI ind\fR] [\fB-t\fI log\fR] [\fB-p\fI no\fR] [\fB-I\fI enc\fR] [\fB--\fR] [\fI idx0 idx1 idx2 ...\fR]
 .br
 \fBmendex\fR \fB--help\fR
+\fBmendex\fR \fB--version\fR
 .SH 解説
 .PP
 \fImendex\fR は文書の索引を作成するコマンドラインツールです。 LaTeX により抽出された索引リストファイル(\fI.idx\fR)を並べ替え、実際の索引のソースファイルの形に整形します。 \fImakeindex\fR と互換性があり、さらに「読み」の扱いの手間を減らすように特殊化されています。
@@ -76,6 +77,9 @@ mendex \- 索引整形ツール
 .TP 10
 \fB--help\fR
 オプションの要約を表示します。
+.TP 10
+\fB--version\fR
+ヴァージョンの情報を表示します。
 .TP 10
 \fB--\fR
 以降はオプション文字列と解釈しません。
